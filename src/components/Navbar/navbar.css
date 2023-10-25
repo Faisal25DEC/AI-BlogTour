@@ -1,0 +1,45 @@
+nav {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  width: 95%;
+  margin: auto;
+}
+nav .logo-wrapper {
+  width: 20%;
+  margin-left: 1rem;
+}
+
+nav .logo {
+  width: 100%;
+  display: flex;
+  font-size: 22px;
+  align-items: center;
+}
+nav img {
+  display: block;
+  height: inherit;
+  width: 20%;
+  background: transparent;
+  margin-bottom: 0.3rem;
+}
+nav input {
+  height: 2rem;
+  width: 30%;
+  border-radius: 17px;
+  outline: none;
+  border: solid 1px grey;
+  padding-left: 10px;
+}
+nav .nav-link {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+  font-size: 22px;
+}
+nav .nav-link-wrapper {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+}

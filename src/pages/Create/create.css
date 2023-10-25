@@ -1,0 +1,47 @@
+form {
+  width: 60%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+}
+form > #title {
+  height: 4rem;
+  font-size: 3rem;
+  font-weight: 500;
+  color: rgb(58, 58, 58);
+  border: none;
+  outline: none;
+}
+form > #title:focus {
+  border-left: solid 1px grey;
+}
+form > #form-footer {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+}
+form > #form-footer > * {
+  height: 1.5rem;
+  width: 15rem;
+}
+form > #submit {
+  display: block;
+  width: 40%;
+  margin: auto;
+  margin-top: 2%;
+  height: 2.4rem;
+  border: none;
+  border-radius: 7px;
+  background-color: black;
+  color: whitesmoke;
+  font-size: 16px;
+  transition: all 0.4s ease-in-out;
+  cursor: pointer;
+}
+form > #submit:hover {
+  color: black;
+  font-weight: 700;
+  background-color: whitesmoke;
+  border: solid 1px grey;
+}
