@@ -45,3 +45,7 @@ form > #submit:hover {
   background-color: whitesmoke;
   border: solid 1px grey;
 }
+.textArea {
+  width: 100%;
+  height: 70vh;
+}

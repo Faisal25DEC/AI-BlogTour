@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
+import styles from "./create.module.css";
 import axios from "axios";
-import "./create.css";
+
 import { Alert, AlertIcon, Textarea } from "@chakra-ui/react";
 import { getCookie } from "../../utils/cookies";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.bubble.css";
 
 const baseUrl = "http://localhost:7700";
 const Create = () => {
@@ -56,7 +59,7 @@ const Create = () => {
           Data uploaded to the server. Fire on!
         </Alert>
       )}
-      <form id="create-blog-form" action="" onSubmit={handleSubmit}>
+      <form id={styles["create-blog-form"]} action="" onSubmit={handleSubmit}>
         <input
           onChange={handleFormFieldChange}
           type="text"
@@ -65,16 +68,13 @@ const Create = () => {
           required
           name="title"
         />
-        <Textarea
-          onChange={handleFormFieldChange}
-          placeholder="write you blog here.. "
-          id="blogcontent"
-          cols="40"
-          rows="28"
-          required
+        <ReactQuill
+          className={styles.textArea}
+          theme="bubble"
           name="description"
+          placeholder="Tell your story..."
         />
-        <div id="form-footer">
+        <div id={styles["form-footer"]}>
           <select
             onChange={handleFormFieldChange}
             name="category"
@@ -105,7 +105,7 @@ const Create = () => {
             required
           />
         </div>
-        <input type="submit" id="submit" />
+        <input type="submit" id={styles["submit"]} />
       </form>
     </div>
   );

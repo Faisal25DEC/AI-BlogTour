@@ -16,7 +16,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const BlogCard = ({ blog }) => {
-  var { _id, title, description, P, image, tags, author, category } = blog;
+  var { _id, title, description, dateCreated, image, tags, author, category } =
+    blog;
   return (
     <Card
       border={"0px"}
