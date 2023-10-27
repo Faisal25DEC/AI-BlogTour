@@ -7,6 +7,7 @@ import {
   Image,
   Text,
 } from "@chakra-ui/react";
+import HTMLToReact from "html-to-react";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
@@ -28,9 +29,13 @@ const View = () => {
   const { currentProduct } = useSelector((state) => state.blogReducer);
   const dispatch = useDispatch();
   const { id } = useParams();
+
+  const htmlToReactParser = new HTMLToReact.Parser();
+
   useEffect(() => {
     dispatch(getSingleProduct(id));
   }, []);
+
   return (
     <Box width={"65%"} m="auto" mt={"2rem"}>
       <Heading ml="3.4rem" mb={"1rem"}>
@@ -76,7 +81,7 @@ const View = () => {
         </GridItem>
       </Grid>
       <Box width="85%" m="auto" mt="1rem">
-        <Text fontSize={"1.2rem"}>{currentProduct?.description}</Text>
+        {htmlToReactParser.parse(currentProduct?.description)}
       </Box>
     </Box>
   );
