@@ -16,8 +16,17 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const BlogCard = ({ blog }) => {
-  var { _id, title, description, dateCreated, image, tags, author, category } =
-    blog;
+  var {
+    _id,
+    title,
+    text,
+    description,
+    dateCreated,
+    image,
+    tags,
+    author,
+    category,
+  } = blog;
   return (
     <Card
       border={"0px"}
@@ -48,7 +57,7 @@ const BlogCard = ({ blog }) => {
                 {title}
               </Heading>
 
-              <Text py="2">{description?.substring(0, 120)}</Text>
+              <Text py="2">{text?.substring(0, 120)}</Text>
             </CardBody>
 
             <CardFooter>

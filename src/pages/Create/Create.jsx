@@ -49,6 +49,8 @@ const Create = () => {
       const res = await axios.post(
         `${baseUrl}/blogs/create`,
         {
+          text,
+          image,
           title,
           category,
           tags,
@@ -61,6 +63,7 @@ const Create = () => {
         }
       );
       console.log("posted");
+      console.log(text);
       setBlogPosted(true);
     } catch (err) {
       console.log(err);
@@ -73,7 +76,8 @@ const Create = () => {
       }, 2000);
     }
   }, [blogPosted]);
-  console.log(editorContent);
+
+  console.log(text);
 
   return (
     <div>

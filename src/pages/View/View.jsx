@@ -41,12 +41,7 @@ const View = () => {
       <Heading ml="3.4rem" mb={"1rem"}>
         {currentProduct?.title}
       </Heading>
-      <Image
-        src={currentProduct?.image}
-        objectFit={"cover"}
-        width={"90%"}
-        margin={"auto"}
-      />
+
       <Grid
         templateColumns={"repeat(2,1fr)"}
         templateRows={"repeat(2,1fr)"}
