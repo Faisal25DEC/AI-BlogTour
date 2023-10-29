@@ -37,11 +37,9 @@ const Login = () => {
       [name]: value,
     });
   };
-
   if (isAuth) {
     return <Navigate to="/" />;
   }
-
   return (
     <Flex alignItems={"center"} justifyContent={"center"} height={"70vh"}>
       <Box width="40%">

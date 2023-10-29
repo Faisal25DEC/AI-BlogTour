@@ -33,7 +33,7 @@ const initblogsArray = [
 ];
 const baseURL = process.env.REACT_APP_BASE_URL;
 const Home = () => {
-  const [blogsArray, setBlogsArray] = useState(initblogsArray);
+  const [blogsArray, setBlogsArray] = useState([]);
 
   const getBlogs = async () => {
     // const token = JSON.parse(localStorage.getItem("token"));
@@ -49,11 +49,14 @@ const Home = () => {
   }, []);
 
   return (
-    <Box width="90%" m={"auto"}>
-      {blogsArray?.map((blog) => {
-        return <BlogCard blog={blog} />;
-      })}
-    </Box>
+    <Flex width="95%" m="auto">
+      <Box width="50%">
+        {blogsArray.length > 0 &&
+          blogsArray?.map((blog) => {
+            return <BlogCard blog={blog} />;
+          })}
+      </Box>
+    </Flex>
   );
 };
 

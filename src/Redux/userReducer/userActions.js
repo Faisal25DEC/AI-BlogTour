@@ -23,8 +23,11 @@ export const signupUser = (user) => async (dispatch) => {
 
 export const loginUser = (user) => async (dispatch) => {
   try {
-    const res = await axios.post(`${baseUrl}/users/login`, user);
-    localStorage.setItem("token", res.data.token);
+    const res = await axios.post(`${baseUrl}/users/login`, user, {
+      withCredentials: "include",
+    });
+    console.log(res);
+
     dispatch(createAction(LOGIN_USER));
   } catch (err) {
     console.log(err);

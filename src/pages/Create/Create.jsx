@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./create.module.css";
 import axios from "axios";
 
@@ -10,14 +10,19 @@ import {
   Input,
   Select,
   Textarea,
+  useToast,
 } from "@chakra-ui/react";
 import { getCookie } from "../../utils/cookies";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.bubble.css";
 import Editor from "../../components/Quill/Editor";
+import { useSelector } from "react-redux";
 
 const baseUrl = "http://localhost:7700";
 const Create = () => {
+  const toast = useToast();
+  const toastIdRef = useRef();
+  const { isAuth } = useSelector((state) => state.userReducer);
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [tags, setTags] = useState([]);
@@ -69,24 +74,38 @@ const Create = () => {
       console.log(err);
     }
   };
+  function addToast() {
+    toastIdRef.current = toast({
+      status: "info",
+
+      color: "blue",
+      description: "Select text to upload image/video above it",
+    });
+  }
+  function addSuccessToast() {
+    toastIdRef.current = toast({
+      status: "success",
+
+      color: "blue",
+      description: "Blog Posted Successfully ✌️",
+      position: "top",
+    });
+  }
   useEffect(() => {
     if (blogPosted) {
+      addSuccessToast();
       setTimeout(() => {
         setBlogPosted(false);
       }, 2000);
     }
   }, [blogPosted]);
-
+  useEffect(() => {
+    addToast();
+  }, []);
   console.log(text);
 
   return (
     <div>
-      {blogPosted && (
-        <Alert status="success">
-          <AlertIcon />
-          Data uploaded to the server. Fire on!
-        </Alert>
-      )}
       <input
         type="text"
         name="title"

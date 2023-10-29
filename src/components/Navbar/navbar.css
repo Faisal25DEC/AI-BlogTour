@@ -6,7 +6,7 @@ nav {
   margin: auto;
 }
 nav .logo-wrapper {
-  width: 20%;
+  width: 10%;
   margin-left: 1rem;
 }
 
@@ -19,7 +19,7 @@ nav .logo {
 nav img {
   display: block;
   height: inherit;
-  width: 20%;
+  width: 30%;
   background: transparent;
   margin-bottom: 0.3rem;
 }

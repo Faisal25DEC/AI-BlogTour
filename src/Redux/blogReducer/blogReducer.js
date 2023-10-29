@@ -5,6 +5,7 @@ import {
   GET_RANDOM_PRODUCTS,
   GET_SINGLE_PRODUCT,
   GET_STATE_PRODUCTS,
+  GET_USER_PRODUCTS,
   SET_STATE_PRODUCTS_NULL,
 } from "./blogTypes";
 
@@ -13,7 +14,7 @@ const initialState = {
   stateProducts: [],
   totalProducts: [],
   randomProducts: [],
-
+  userProducts: [],
   currentProduct: {},
   currentProductStateDetails: {},
   isLoading: false,
@@ -68,6 +69,12 @@ export const blogReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         currentProductStateDetails: { ...payload },
+      };
+    }
+    case GET_USER_PRODUCTS: {
+      return {
+        ...state,
+        userProducts: [...payload],
       };
     }
     default: {

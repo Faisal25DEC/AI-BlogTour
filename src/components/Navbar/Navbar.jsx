@@ -30,6 +30,7 @@ const Navbar = () => {
 
     if (token) {
       dispatch(getUserDetails(token));
+      console.log(userDetails);
     }
   }, [isAuth]);
   return (
@@ -46,10 +47,13 @@ const Navbar = () => {
 
       <input type="text" id="search" placeholder="Seach" />
       <div className="nav-link-wrapper">
-        <Link to="/create" className="nav-link">
-          {" "}
-          <i className="fa-solid fa-pen-to-square"></i> Write
-        </Link>
+        {isAuth && (
+          <Link to="/create" className="nav-link">
+            {" "}
+            <i className="fa-solid fa-pen-to-square"></i> Write
+          </Link>
+        )}
+
         {isAuth ? (
           <Flex alignItems={"center"} gap="5px">
             <Menu>
@@ -80,7 +84,11 @@ const Navbar = () => {
               </MenuList>
             </Menu>
             <Image
-              src={userDetails.image}
+              src={
+                userDetails?.image
+                  ? userDetails.image
+                  : "https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg"
+              }
               borderRadius={"10px"}
               height="30px"
               width={"30px"}
@@ -89,7 +97,9 @@ const Navbar = () => {
           </Flex>
         ) : (
           <Link to="/login" className="nav-link">
-            Login
+            <Button bg={"black"} color={"white"}>
+              Login
+            </Button>
           </Link>
         )}
       </div>

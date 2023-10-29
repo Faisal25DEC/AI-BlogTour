@@ -12,7 +12,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
     <Provider store={store}>
-      <ChakraProvider>
+      <ChakraProvider toastOptions={{ defaultOptions: { position: "bottom" } }}>
         <ColorModeScript initialColorMode="light" />
         <App />
       </ChakraProvider>

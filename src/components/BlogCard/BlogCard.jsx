@@ -14,8 +14,9 @@ import {
 import { FaPersonBooth, FaUser } from "react-icons/fa";
 import React from "react";
 import { Link } from "react-router-dom";
+import { getBlogReadTime } from "../../utils/blogCard";
 
-const BlogCard = ({ blog }) => {
+const BlogCard = ({ blog, onProfile }) => {
   var {
     _id,
     title,
@@ -32,7 +33,7 @@ const BlogCard = ({ blog }) => {
       border={"0px"}
       borderBottom={"solid 0.4px #d4d6d5"}
       mt={"5"}
-      width={"50%"}
+      width={onProfile ? "80%" : "100%"}
       // direction={{ base: "column", sm: "row" }}
       overflow="hidden"
       variant="outline"
@@ -60,14 +61,15 @@ const BlogCard = ({ blog }) => {
               <Text py="2">{text?.substring(0, 120)}</Text>
             </CardBody>
 
-            <CardFooter>
+            <CardFooter width="100%">
               <Flex gap="1.4rem" alignItems={"center"}>
                 <Text bg={"#d4d6d5"} padding={"0px 10px"} borderRadius={"15px"}>
                   {tags.join(",")}
                 </Text>
-                <Text>25 min read</Text>
+                <Text>{getBlogReadTime(text?.length)} read</Text>
                 <Link to={`/blog/${_id}`}>
                   <Button
+                    ml="auto"
                     width={"9rem"}
                     variant="solid"
                     bg={"black"}
@@ -93,7 +95,11 @@ const BlogCard = ({ blog }) => {
               width={"155px"}
               height={"155px"}
               // maxW={{ base: "100%", sm: "200px" }}
-              src={image}
+              src={
+                image
+                  ? image
+                  : "https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg"
+              }
               alt="Caffe Latte"
             />
           </Flex>

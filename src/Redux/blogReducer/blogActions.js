@@ -8,6 +8,7 @@ import {
   GET_RANDOM_PRODUCTS,
   GET_SINGLE_PRODUCT,
   GET_STATE_PRODUCTS,
+  GET_USER_PRODUCTS,
   SET_STATE_PRODUCTS_NULL,
 } from "./blogTypes";
 
@@ -41,7 +42,15 @@ export const getRandomProducts = () => (dispatch) => {
     dispatch(createAction(GET_RANDOM_PRODUCTS, res.data));
   });
 };
-export const getUserProducts = (state) => async (dispatch) => {};
+export const getUserProducts = (userId) => async (dispatch) => {
+  try {
+    const res = await axios.get(`${baseUrl}/blogs/user/${userId}`);
+    console.log(res);
+    dispatch(createAction(GET_USER_PRODUCTS, res.data));
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 export const getStateProducts = (state) => async (dispatch) => {
   console.log(state);

@@ -6,12 +6,23 @@ import {
   Heading,
   Image,
   Text,
+  Drawer,
+  DrawerBody,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  Button,
+  useDisclosure,
 } from "@chakra-ui/react";
+
 import HTMLToReact from "html-to-react";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { getSingleProduct } from "../../Redux/blogReducer/blogActions";
+import DrawerComp from "../../components/Drawer/Drawer";
 const blogsArray = [
   {
     title: "blog",
@@ -26,6 +37,8 @@ const blogsArray = [
   },
 ];
 const View = () => {
+  const { onOpen, isOpen, onClose } = useDisclosure();
+  const btnRef = useRef();
   const { currentProduct } = useSelector((state) => state.blogReducer);
   const dispatch = useDispatch();
   const { id } = useParams();
@@ -75,9 +88,21 @@ const View = () => {
           </HStack>
         </GridItem>
       </Grid>
+      <Box>
+        <Button ref={btnRef} onClick={onOpen}>
+          Comment
+        </Button>
+      </Box>
       <Box width="85%" m="auto" mt="1rem">
         {htmlToReactParser.parse(currentProduct?.description)}
       </Box>
+      <DrawerComp
+        blogId={currentProduct?._id}
+        btnRef={btnRef}
+        onClose={onClose}
+        onOpen={onClose}
+        isOpen={isOpen}
+      />
     </Box>
   );
 };
