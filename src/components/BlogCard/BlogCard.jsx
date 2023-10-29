@@ -40,7 +40,7 @@ const BlogCard = ({ blog, onProfile }) => {
       variant="outline"
     >
       <Flex>
-        <Box>
+        <Box width="75%">
           <Stack>
             <CardBody>
               <Flex gap="1.4rem" alignItems="center">
