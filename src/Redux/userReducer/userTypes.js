@@ -6,3 +6,4 @@ export const LOGOUT_USER = "LOGOUT_USER";
 export const GET_USER_DETAILS = "GET_USER_DETAILS";
 export const GOOGLE_SIGN_IN = "GOOGLE_SIGN_IN";
 export const GET_RANDOM_USERS = "GET_RANDOM_USERS";
+export const GET_PROFILE_USER = "GET_PROFILE_USER";

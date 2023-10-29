@@ -7,6 +7,7 @@ import {
   SIGNUP_USER,
   GET_USER_DETAILS,
   GET_RANDOM_USERS,
+  GET_PROFILE_USER,
 } from "./userTypes";
 import { removeCookie } from "../../utils/cookies";
 
@@ -18,7 +19,7 @@ const baseUrl = `http://localhost:7700`;
 
 export const getRandomUsers = () => async (dispatch) => {
   try {
-    const res = await axios.get(`${baseUrl}/users/random`);
+    const res = await axios.get(`${baseUrl}/users/random/users`);
     console.log(res);
     dispatch(createAction(GET_RANDOM_USERS, res.data));
   } catch (err) {
@@ -61,6 +62,16 @@ export const getUserDetails = (token) => async (dispatch) => {
     console.log(res);
 
     dispatch(createAction(GET_USER_DETAILS, res.data));
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getProfileUser = (userId) => async (dispatch) => {
+  try {
+    const res = await axios.get(`${baseUrl}/users/${userId}`);
+    console.log(res);
+    dispatch(createAction(GET_PROFILE_USER, res.data));
   } catch (err) {
     console.log(err);
   }

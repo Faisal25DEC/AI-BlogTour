@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { getCookie } from "./../../utils/cookies";
@@ -17,6 +17,7 @@ import {
   Stack,
   Text,
   VStack,
+  useToast,
 } from "@chakra-ui/react";
 import { FaPersonBooth, FaUser } from "react-icons/fa";
 import BlogCard from "../../components/BlogCard/BlogCard";
@@ -47,12 +48,14 @@ const initblogsArray = [
 const baseURL = process.env.REACT_APP_BASE_URL;
 const Home = () => {
   const [blogsArray, setBlogsArray] = useState([]);
-  const { randomUsers, userDetails } = useSelector(
+  const { randomUsers, userDetails, isAuth } = useSelector(
     (state) => state.userReducer
   );
   const { followers, following } = useSelector(
     (state) => state.followerReducer
   );
+  const toastIdRef = useRef();
+  const toast = useToast();
   const dispatch = useDispatch();
   const getBlogs = async () => {
     // const token = JSON.parse(localStorage.getItem("token"));
@@ -66,6 +69,14 @@ const Home = () => {
     console.log(res);
     return res != -1 ? true : false;
   };
+
+  function addToast() {
+    toastIdRef.current = toast({
+      description: "You need to login to follow users",
+      status: "error",
+      position: "top",
+    });
+  }
 
   useEffect(() => {
     getBlogs();
@@ -94,8 +105,8 @@ const Home = () => {
       </Box>
       <VStack mt="2.5rem" mr="2.5rem">
         {randomUsers?.map((user, index) => {
-          const { name, image } = user;
-          if (userDetails && user._id != userDetails?._id && index < 4) {
+          const { name, image, _id } = user;
+          if (user._id != userDetails?._id && index < 4) {
             return (
               <Box width={"100%"}>
                 <Flex justifyContent={"flex-start"} width="100%" gap="1rem">
@@ -108,9 +119,12 @@ const Home = () => {
                         : "https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg"
                     }
                   />
-                  <Text>{name}</Text>
+                  <Link to={`/profile/${_id}`}>{name}</Link>
                   <Button
                     onClick={() => {
+                      if (!isAuth) {
+                        addToast();
+                      }
                       if (isFollowing(user._id)) {
                         dispatch(unfollowUser(user._id, userDetails?._id));
                       } else {

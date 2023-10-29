@@ -26,6 +26,7 @@ const BlogCard = ({ blog, onProfile }) => {
     image,
     tags,
     author,
+    author_id,
     category,
   } = blog;
   return (
@@ -46,10 +47,10 @@ const BlogCard = ({ blog, onProfile }) => {
                 <Flex alignItems={"center"} gap="4px">
                   <FaUser />
 
-                  <Text m={"0"} height="80%">
+                  <Link m={"0"} height="80%" to={`/profile/${author_id}`}>
                     {" "}
                     {author}
-                  </Text>
+                  </Link>
                 </Flex>
                 <Text>{dateCreated} </Text>
                 <Text>{category} </Text>

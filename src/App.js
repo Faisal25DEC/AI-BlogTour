@@ -9,6 +9,8 @@ import Signup from "./pages/Signup/Signup";
 import Login from "./pages/Login/Login";
 import Profile from "./pages/Profile/Profile";
 
+import ProfileUser from "./pages/ProfileUser/ProfileUser";
+
 function App() {
   return (
     <div>
@@ -20,6 +22,7 @@ function App() {
         <Route path="/create" element={<Create />} />
         <Route path="/blog/:id" element={<View />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/profile/:userId" element={<ProfileUser />} />
       </Routes>
     </div>
   );

@@ -2,43 +2,39 @@ import React, { useEffect } from "react";
 import { Avatar, Box, Flex, Heading, Image, Text } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCookie } from "../../utils/cookies";
-import { getUserDetails } from "../../Redux/userReducer/userActions";
-import { Navigate } from "react-router";
+import { getProfileUser } from "../../Redux/userReducer/userActions";
+import { Navigate, useParams } from "react-router";
 import { getUserProducts } from "../../Redux/blogReducer/blogActions";
 import { blogReducer } from "./../../Redux/blogReducer/blogReducer";
 import BlogCard from "../../components/BlogCard/BlogCard";
 import { getFollowersFollowing } from "../../Redux/followerReducer/followerActions";
 
-const Profile = () => {
-  const { userDetails, isAuth } = useSelector((state) => state.userReducer);
+const ProfileUser = () => {
+  const { profileUser, isAuth } = useSelector((state) => state.userReducer);
   const { userProducts } = useSelector((state) => state.blogReducer);
   const { followers, following } = useSelector(
     (state) => state.followerReducer
   );
   const dispatch = useDispatch();
+  const { userId } = useParams();
 
   useEffect(() => {
-    const token = getCookie("jwttoken");
-    if (token) {
-      dispatch(getUserDetails(token));
-    }
+    dispatch(getProfileUser(userId));
   }, []);
 
   useEffect(() => {
-    if (userDetails) {
-      dispatch(getUserProducts(userDetails._id));
-      dispatch(getFollowersFollowing(userDetails._id));
+    if (profileUser) {
+      dispatch(getUserProducts(profileUser._id));
+      dispatch(getFollowersFollowing(profileUser._id));
     }
-  }, [userDetails]);
+  }, [profileUser]);
   console.log(userProducts);
-  if (!isAuth) {
-    return <Navigate to="/login" />;
-  }
+
   return (
     <Box width="80%" m="auto" mt="10%">
       <Flex>
         <Box flexBasis={"70%"}>
-          <Heading mb="1rem">{userDetails?.name}</Heading>
+          <Heading mb="1rem">{profileUser?.name}</Heading>
           <hr />
           <Box overflow={"scroll"} height="75vh">
             {userProducts.length === 0 && (
@@ -55,8 +51,8 @@ const Profile = () => {
         <Box borderLeft={"solid 0.4px #dedad9"} height="75vh" pl="10">
           <Image
             src={
-              userDetails?.image
-                ? userDetails.image
+              profileUser?.image
+                ? profileUser.image
                 : "https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg"
             }
             borderRadius={"full"}
@@ -64,7 +60,7 @@ const Profile = () => {
             height="9rem"
           />
           <Heading size="md" mt="1rem">
-            {userDetails?.name}
+            {profileUser?.name}
           </Heading>
           <Flex gap="1rem" mt="1rem">
             <Text fontWeight={"bold"}>Followers {followers?.length}</Text>
@@ -76,4 +72,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default ProfileUser;
