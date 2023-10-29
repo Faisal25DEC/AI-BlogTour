@@ -6,6 +6,7 @@ import {
   INITIATE_SIGNUP,
   SIGNUP_USER,
   GET_USER_DETAILS,
+  GET_RANDOM_USERS,
 } from "./userTypes";
 import { removeCookie } from "../../utils/cookies";
 
@@ -14,6 +15,16 @@ const createAction = (type, payload) => {
 };
 
 const baseUrl = `http://localhost:7700`;
+
+export const getRandomUsers = () => async (dispatch) => {
+  try {
+    const res = await axios.get(`${baseUrl}/users/random`);
+    console.log(res);
+    dispatch(createAction(GET_RANDOM_USERS, res.data));
+  } catch (err) {
+    console.log("err", err);
+  }
+};
 
 export const signupUser = (user) => async (dispatch) => {
   const res = await axios.post(`${baseUrl}/users/signup`, user);

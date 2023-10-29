@@ -26,8 +26,8 @@ const Profile = () => {
 
   useEffect(() => {
     if (userDetails) {
-      dispatch(getUserProducts(userDetails?._id));
-      dispatch(getFollowersFollowing(userDetails?._id));
+      dispatch(getUserProducts(userDetails._id));
+      dispatch(getFollowersFollowing(userDetails._id));
     }
   }, [userDetails]);
   console.log(userProducts);
@@ -67,8 +67,8 @@ const Profile = () => {
             {userDetails?.name}
           </Heading>
           <Flex gap="1rem">
-            <Text fontWeight={"bold"}>Followers {followers.length}</Text>
-            <Text fontWeight={"bold"}>Following {following.length}</Text>
+            <Text fontWeight={"bold"}>Followers {followers?.length}</Text>
+            <Text fontWeight={"bold"}>Following {following?.length}</Text>
           </Flex>
         </Box>
       </Flex>
