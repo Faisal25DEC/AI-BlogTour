@@ -39,7 +39,12 @@ export const getProducts = (page) => async (dispatch) => {
 export const getRandomProducts = () => (dispatch) => {
   const apiRes = axios.get(`${baseUrl}/blogs`).then((res) => {
     console.log(res.data);
-    dispatch(createAction(GET_RANDOM_PRODUCTS, res.data));
+    const randomBlogs = [];
+    for (let i = 0; i < Math.min(8, res.data.length); i++) {
+      const idx = Math.floor(Math.random() * res.data.length);
+      randomBlogs.push(res.data[idx]);
+    }
+    dispatch(createAction(GET_RANDOM_PRODUCTS, [...new Set(randomBlogs)]));
   });
 };
 export const getUserProducts = (userId) => async (dispatch) => {

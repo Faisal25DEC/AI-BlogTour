@@ -42,15 +42,9 @@ export const blogReducer = (state = initialState, { type, payload }) => {
       };
     }
     case GET_RANDOM_PRODUCTS: {
-      const tempRandomArray = [];
-      for (let i = 0; i < 6; i++) {
-        const idx = Math.floor(Math.random() * payload.length);
-        tempRandomArray.push(payload[idx]);
-      }
-      console.log(tempRandomArray);
       return {
         ...state,
-        randomProducts: tempRandomArray,
+        randomProducts: [...payload],
       };
     }
     case SET_STATE_PRODUCTS_NULL: {

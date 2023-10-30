@@ -19,7 +19,7 @@ import {
   VStack,
   useToast,
 } from "@chakra-ui/react";
-import { FaPersonBooth, FaUser } from "react-icons/fa";
+import { FaPersonBooth, FaRegUser, FaUser } from "react-icons/fa";
 import BlogCard from "../../components/BlogCard/BlogCard";
 import { getRandomProducts } from "../../Redux/blogReducer/blogActions";
 import {
@@ -32,6 +32,7 @@ import {
   getFollowersFollowing,
   unfollowUser,
 } from "../../Redux/followerReducer/followerActions";
+import { isFollowing } from "../../utils/blogUtils";
 const initblogsArray = [
   {
     title: "blog",
@@ -47,7 +48,9 @@ const initblogsArray = [
 ];
 const baseURL = process.env.REACT_APP_BASE_URL;
 const Home = () => {
+  const { randomProducts } = useSelector((state) => state.blogReducer);
   const [blogsArray, setBlogsArray] = useState([]);
+
   const { randomUsers, userDetails, isAuth } = useSelector(
     (state) => state.userReducer
   );
@@ -64,11 +67,6 @@ const Home = () => {
     setBlogsArray(res.data);
     console.log(res);
   };
-  const isFollowing = (id) => {
-    const res = following.findIndex((element) => element == id);
-    console.log(res);
-    return res != -1 ? true : false;
-  };
 
   function addToast() {
     toastIdRef.current = toast({
@@ -80,6 +78,7 @@ const Home = () => {
 
   useEffect(() => {
     getBlogs();
+    dispatch(getRandomProducts());
 
     // console.log(Cookies.get("jwttoken"));
   }, []);
@@ -103,7 +102,43 @@ const Home = () => {
             return <BlogCard blog={blog} />;
           })}
       </Box>
-      <VStack mt="2.5rem" mr="2.5rem">
+
+      <VStack mt="2.5rem" mr="2.5rem" width="30%" alignItems={"flex-start"}>
+        <Box>
+          {randomProducts?.length > 0 &&
+            randomProducts.map((blog, index) => {
+              const { title, category, author, text } = blog;
+              if (index < 4) {
+                return (
+                  <Link to={`/blog/${blog._id}`}>
+                    <Box mb="1rem">
+                      <Link to={`/profile/${blog.author_id}`}>
+                        <Flex alignItems={"center"} gap="0.6rem">
+                          <Avatar
+                            size="xs"
+                            src="https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745"
+                          />
+                          <Text fontSize={"0.9rem"} fontWeight={"medium"}>
+                            {author}
+                          </Text>
+                        </Flex>
+                      </Link>
+                      <Flex
+                        alignItems={"center"}
+                        justifyContent={"space-between"}
+                        mt="0.5rem"
+                      >
+                        <Heading size="sm">{title}</Heading>
+                      </Flex>
+                      <Box p="0.3rem 0">
+                        <hr></hr>
+                      </Box>
+                    </Box>
+                  </Link>
+                );
+              }
+            })}
+        </Box>
         {randomUsers?.map((user, index) => {
           const { name, image, _id } = user;
           if (user._id != userDetails?._id && index < 4) {
@@ -125,7 +160,7 @@ const Home = () => {
                       if (!isAuth) {
                         addToast();
                       }
-                      if (isFollowing(user._id)) {
+                      if (following && isFollowing(user._id, following)) {
                         dispatch(unfollowUser(user._id, userDetails?._id));
                       } else {
                         dispatch(followUser(user._id, userDetails?._id));
@@ -136,7 +171,7 @@ const Home = () => {
                     fontSize="0.8rem"
                     variant={"outline"}
                   >
-                    {isFollowing(user._id) ? "Following" : "Follow"}
+                    {isFollowing(user._id, following) ? "Following" : "Follow"}
                   </Button>
                 </Flex>
               </Box>

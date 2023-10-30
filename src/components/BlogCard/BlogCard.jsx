@@ -14,7 +14,7 @@ import {
 import { FaPersonBooth, FaUser } from "react-icons/fa";
 import React from "react";
 import { Link } from "react-router-dom";
-import { getBlogReadTime } from "../../utils/blogCard";
+import { getBlogReadTime, monthMap } from "../../utils/blogCard";
 
 const BlogCard = ({ blog, onProfile }) => {
   var {
@@ -52,7 +52,10 @@ const BlogCard = ({ blog, onProfile }) => {
                     {author}
                   </Link>
                 </Flex>
-                <Text>{dateCreated} </Text>
+                <Text>
+                  {monthMap[+dateCreated.substring(5, 7)]}{" "}
+                  {dateCreated.substring(8, 10)} , {dateCreated.substring(0, 4)}
+                </Text>
                 <Text>{category} </Text>
               </Flex>
               <Heading size="md" mt={"5"}>
