@@ -7,6 +7,7 @@ import {
   INITIATE_SIGNUP,
   LOGIN_USER,
   LOGOUT_USER,
+  SIGNUP_ERROR,
 } from "./userTypes";
 
 const initialState = {
@@ -15,6 +16,7 @@ const initialState = {
   profileUser: null,
   randomUsers: [],
   signUp: false,
+  signUpError: null,
 };
 
 export const userReducer = (state = initialState, { type, payload }) => {
@@ -71,6 +73,12 @@ export const userReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         profileUser: { ...payload },
+      };
+    }
+    case SIGNUP_ERROR: {
+      return {
+        ...state,
+        signUpError: payload,
       };
     }
     default: {

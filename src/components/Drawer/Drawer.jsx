@@ -20,8 +20,10 @@ import {
   getBlogComments,
   postComment,
 } from "../../Redux/commentReducer/commentActions";
+import { Link } from "react-router-dom";
 const DrawerComp = ({ btnRef, onOpen, isOpen, onClose, blogId }) => {
   const { blogComments } = useSelector((state) => state.commentReducer);
+  const { isAuth } = useSelector((state) => state.userReducer);
   const dispatch = useDispatch();
   const commentRef = useRef();
   const [comment, setComment] = useState("");
@@ -43,27 +45,42 @@ const DrawerComp = ({ btnRef, onOpen, isOpen, onClose, blogId }) => {
         <DrawerHeader>Comments</DrawerHeader>
 
         <DrawerBody>
-          <Box>
-            <Textarea
-              ref={commentRef}
-              onChange={(e) => {
-                setComment(e.target.value);
-              }}
-            ></Textarea>
-            <Button
-              colorScheme="teal"
-              mt="2"
-              onClick={() => {
-                if (comment != "") {
-                  dispatch(postComment(comment, blogId));
-                  setComment("");
-                  commentRef.current.value = "";
-                }
-              }}
-            >
-              Comment
-            </Button>
-          </Box>
+          {isAuth ? (
+            <Box>
+              <Textarea
+                ref={commentRef}
+                onChange={(e) => {
+                  setComment(e.target.value);
+                }}
+              ></Textarea>
+              <Button
+                colorScheme="teal"
+                mt="2"
+                onClick={() => {
+                  if (comment != "") {
+                    dispatch(postComment(comment, blogId));
+                    setComment("");
+                    commentRef.current.value = "";
+                  }
+                }}
+              >
+                Comment
+              </Button>
+            </Box>
+          ) : (
+            <Box>
+              <Text fontWeight={"bold"}>
+                Please{" "}
+                <Link to="/login">
+                  <Button colorScheme="red" height="2rem">
+                    Login
+                  </Button>
+                </Link>{" "}
+                to Comment
+              </Text>
+            </Box>
+          )}
+
           <VStack spacing={"4"} align={"flex-start"} mt="4">
             {blogComments?.map((blogComment) => {
               const { author, comment } = blogComment;

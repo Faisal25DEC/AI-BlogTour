@@ -8,6 +8,7 @@ import {
   GET_USER_DETAILS,
   GET_RANDOM_USERS,
   GET_PROFILE_USER,
+  SIGNUP_ERROR,
 } from "./userTypes";
 import { removeCookie } from "../../utils/cookies";
 
@@ -28,9 +29,14 @@ export const getRandomUsers = () => async (dispatch) => {
 };
 
 export const signupUser = (user) => async (dispatch) => {
-  const res = await axios.post(`${baseUrl}/users/signup`, user);
-  console.log(res.data);
-  dispatch(loginUser(user));
+  try {
+    const res = await axios.post(`${baseUrl}/users/signup`, user);
+    console.log(res.data);
+    dispatch(loginUser(user));
+  } catch (err) {
+    console.log(err.response.data);
+    dispatch(createAction(SIGNUP_ERROR, err.response.data.msg));
+  }
 };
 
 export const loginUser = (user) => async (dispatch) => {

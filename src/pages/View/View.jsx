@@ -17,6 +17,7 @@ import {
   useDisclosure,
   Flex,
   Avatar,
+  getToken,
 } from "@chakra-ui/react";
 import styles from "./View.module.css";
 import HTMLToReact from "html-to-react";
@@ -39,16 +40,23 @@ import {
   getFollowersFollowing,
   unfollowUser,
 } from "./../../Redux/followerReducer/followerActions";
-import { isFollowing } from "../../utils/blogUtils";
+import { isFollowing, isLiked } from "../../utils/blogUtils";
 import { getCookie } from "../../utils/cookies";
 import {
   FaComment,
   FaRegBookmark,
   FaRegComment,
   FaRegSave,
+  FaRegThumbsUp,
+  FaThumbsUp,
 } from "react-icons/fa";
 import { getBlogComments } from "../../Redux/commentReducer/commentActions";
 import { Link } from "react-router-dom";
+import {
+  getBlogLikes,
+  likeBlog,
+  unlikeBlog,
+} from "../../Redux/likeReducer/likeActions";
 const blogsArray = [
   {
     title: "blog",
@@ -65,6 +73,7 @@ const blogsArray = [
 const View = () => {
   const { onOpen, isOpen, onClose } = useDisclosure();
   const btnRef = useRef();
+  const { likes } = useSelector((state) => state.likeReducer);
   const { blogComments } = useSelector((state) => state.commentReducer);
   const { currentProduct } = useSelector((state) => state.blogReducer);
   const { profileUser, userDetails, isAuth } = useSelector(
@@ -87,8 +96,11 @@ const View = () => {
     dispatch(getSingleProduct(id));
   }, []);
   useEffect(() => {
-    dispatch(getProfileUser(currentProduct?.author_id));
-    dispatch(getBlogComments(currentProduct?._id));
+    if (currentProduct?._id) {
+      dispatch(getProfileUser(currentProduct?.author_id));
+      dispatch(getBlogComments(currentProduct?._id));
+      dispatch(getBlogLikes(currentProduct?._id));
+    }
   }, [currentProduct]);
 
   useEffect(() => {
@@ -155,15 +167,46 @@ const View = () => {
         <hr></hr>
 
         <Flex p="0.5rem 0rem" justifyContent={"space-between"}>
-          <HStack spacing={"1"}>
-            <FaRegComment
-              className={styles["blog-view-icons"]}
-              onClick={onOpen}
-              ref={btnRef}
-              fontSize={"1.4rem"}
-            ></FaRegComment>
-            <Text>{blogComments?.length && blogComments?.length}</Text>
-          </HStack>
+          <Flex gap="1rem" alignItems={"center"}>
+            <HStack spacing={"1"}>
+              <FaRegComment
+                className={styles["blog-view-icons"]}
+                onClick={onOpen}
+                ref={btnRef}
+                fontSize={"1.4rem"}
+              ></FaRegComment>
+              <Text>{blogComments?.length && blogComments?.length}</Text>
+            </HStack>
+            <HStack spacing={"1"}>
+              {!isLiked(userDetails?._id, likes) ? (
+                <FaRegThumbsUp
+                  className={styles["blog-view-icons"]}
+                  fontSize={"1.4rem"}
+                  onClick={() => {
+                    if (isAuth) {
+                      const token = getCookie("jwttoken");
+
+                      dispatch(likeBlog(currentProduct?._id, token));
+                    }
+                  }}
+                />
+              ) : (
+                <FaThumbsUp
+                  className={styles["blog-view-icons"]}
+                  fontSize={"1.4rem"}
+                  onClick={() => {
+                    if (isAuth) {
+                      const token = getCookie("jwttoken");
+
+                      dispatch(unlikeBlog(currentProduct?._id, token));
+                    }
+                  }}
+                />
+              )}
+
+              <Text>{likes?.length && likes?.length}</Text>
+            </HStack>
+          </Flex>
           <HStack>
             <FaRegBookmark
               className={styles["blog-view-icons"]}

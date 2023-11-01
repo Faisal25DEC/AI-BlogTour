@@ -54,7 +54,7 @@ const BlogCard = ({ blog, onProfile }) => {
                 </Flex>
                 <Text>
                   {monthMap[+dateCreated.substring(5, 7)]}{" "}
-                  {dateCreated.substring(8, 10)} , {dateCreated.substring(0, 4)}
+                  {dateCreated.substring(8, 10)}{" "}, {dateCreated.substring(0,4)}
                 </Text>
                 <Text>{category} </Text>
               </Flex>

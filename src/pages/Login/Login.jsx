@@ -13,9 +13,11 @@ import {
   FormErrorMessage,
   FormLabel,
   Input,
+  Text,
 } from "@chakra-ui/react";
 import { FaGoogle } from "react-icons/fa";
 import { Navigate } from "react-router";
+import { Link } from "react-router-dom";
 
 const initialFormData = {
   name: "",
@@ -106,6 +108,9 @@ const Login = () => {
             Sign In with Google
           </Button>
         </Center>
+        <Text textAlign="center" mt="1.5rem" color="#0f73d1">
+          <Link to="/signup">Don't have an account? Register here</Link>
+        </Text>
       </Box>
     </Flex>
   );
