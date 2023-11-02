@@ -26,7 +26,7 @@ const initialFormData = {
   phone: null,
 };
 const redirectUrl = "http://localhost:3000";
-const baseUrl = "http://localhost:7700";
+const baseUrl = "http://https://medium-backend-ut1y.vercel.app/:7700";
 const Login = () => {
   const [formData, setFormData] = useState(initialFormData);
   const { isAuth } = useSelector((state) => state.userReducer);
@@ -102,7 +102,8 @@ const Login = () => {
             leftIcon={<FaGoogle />}
             colorScheme="red"
             onClick={() => {
-              window.location.href = "http://localhost:7700/auth/google";
+              window.location.href =
+                "https://medium-backend-ut1y.vercel.app/auth/google";
             }}
           >
             Sign In with Google

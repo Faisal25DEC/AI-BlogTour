@@ -18,7 +18,7 @@ import "react-quill/dist/quill.bubble.css";
 import Editor from "../../components/Quill/Editor";
 import { useSelector } from "react-redux";
 
-const baseUrl = "http://localhost:7700";
+const baseUrl = "http://https://medium-backend-ut1y.vercel.app";
 const Create = () => {
   const toast = useToast();
   const toastIdRef = useRef();

@@ -1,15 +1,15 @@
-// cookies.js
-export const getCookie = (name) => {
-  const cookies = document.cookie.split(";").map((cookie) => cookie.trim());
-  console.log(cookies);
+export function getCookie(cookieName) {
+  const cookies = document.cookie.split("; ");
   for (const cookie of cookies) {
-    const [cookieName, cookieValue] = cookie.split("=");
-    if (cookieName === name) {
-      return decodeURIComponent(cookieValue);
+    const [name, value] = cookie.split("=");
+    if (name === cookieName) {
+      return decodeURIComponent(value);
     }
   }
   return null;
-};
+}
+
+// Usage
 
 export function removeCookie(cookieName) {
   // Set the cookie's expiration date to the past

@@ -16,7 +16,7 @@ const createAction = (type, payload) => {
   return { type, payload };
 };
 
-const baseUrl = `http://localhost:7700`;
+const baseUrl = `https://medium-backend-ut1y.vercel.app`;
 
 export const getAllProducts = () => async (dispatch) => {
   const apiRes = axios

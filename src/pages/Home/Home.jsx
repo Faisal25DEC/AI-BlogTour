@@ -33,6 +33,7 @@ import {
   unfollowUser,
 } from "../../Redux/followerReducer/followerActions";
 import { isFollowing } from "../../utils/blogUtils";
+import { baseUrl } from "../../Redux/util";
 const initblogsArray = [
   {
     title: "blog",
@@ -46,7 +47,7 @@ const initblogsArray = [
     tags: ["fashion", "healthcare"],
   },
 ];
-const baseURL = process.env.REACT_APP_BASE_URL;
+
 const Home = () => {
   const { randomProducts } = useSelector((state) => state.blogReducer);
   const [blogsArray, setBlogsArray] = useState([]);
@@ -63,7 +64,7 @@ const Home = () => {
   const getBlogs = async () => {
     // const token = JSON.parse(localStorage.getItem("token"));
 
-    const res = await axios.get(`${baseURL}/blogs`);
+    const res = await axios.get(`${baseUrl}/blogs`);
     setBlogsArray(res.data);
     console.log(res);
   };

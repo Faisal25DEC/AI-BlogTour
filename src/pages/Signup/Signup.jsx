@@ -25,7 +25,7 @@ const initialFormData = {
   email: "",
   phone: null,
 };
-const baseUrl = "http://localhost:7700";
+const baseUrl = "http://localhost:https://medium-backend-ut1y.vercel.app/";
 const Signup = () => {
   const [formData, setFormData] = useState(initialFormData);
   const dispatch = useDispatch();

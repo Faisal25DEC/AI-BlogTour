@@ -11,12 +11,11 @@ import {
   SIGNUP_ERROR,
 } from "./userTypes";
 import { removeCookie } from "../../utils/cookies";
+import { baseUrl } from "../util";
 
 const createAction = (type, payload) => {
   return { type, payload };
 };
-
-const baseUrl = `http://localhost:7700`;
 
 export const getRandomUsers = () => async (dispatch) => {
   try {
