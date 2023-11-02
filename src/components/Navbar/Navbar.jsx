@@ -20,6 +20,7 @@ import {
   Image,
 } from "@chakra-ui/react";
 import { getCookie } from "../../utils/cookies";
+import Cookies from "js-cookie";
 const Navbar = () => {
   const { userDetails, isAuth } = useSelector((state) => state.userReducer);
   const dispatch = useDispatch();
