@@ -10,16 +10,14 @@ const OAuthCallback = () => {
       const token = urlSearchParams.get("token");
 
       if (token) {
-        // Store the token in localStorage
         localStorage.setItem("jwt_token", token);
 
-        // Redirect the user to the desired page
-        window.location.href = "http://localhost:3000"; // Update the URL as needed
+        window.location.href = "https://medium-blog-app-pi.vercel.app"; // Update the URL as needed
       }
     }
   }, []);
 
-  return null; // or any UI component for the callback
+  return null;
 };
 
 export default OAuthCallback;
