@@ -10,7 +10,7 @@ import {
   GET_PROFILE_USER,
   SIGNUP_ERROR,
 } from "./userTypes";
-import { removeCookie } from "../../utils/cookies";
+import { removeToken } from "../../utils/cookies";
 import { baseUrl } from "../util";
 
 const createAction = (type, payload) => {
@@ -44,6 +44,7 @@ export const loginUser = (user) => async (dispatch) => {
       withCredentials: "include",
     });
     console.log(res);
+    localStorage.setItem("jwt_token", res.data.token);
 
     dispatch(createAction(LOGIN_USER));
   } catch (err) {
@@ -52,7 +53,7 @@ export const loginUser = (user) => async (dispatch) => {
 };
 
 export const logoutUser = () => {
-  removeCookie("jwttoken");
+  removeToken("jwt_token");
   return createAction(LOGOUT_USER);
 };
 

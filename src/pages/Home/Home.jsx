@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { getCookie } from "./../../utils/cookies";
-import Cookies from "js-cookie";
+import { getToken } from "./../../utils/cookies";
 import {
   Avatar,
   Box,
@@ -19,7 +18,7 @@ import {
   VStack,
   useToast,
 } from "@chakra-ui/react";
-import { FaPersonBooth, FaRegUser, FaUser } from "react-icons/fa";
+
 import BlogCard from "../../components/BlogCard/BlogCard";
 import { getRandomProducts } from "../../Redux/blogReducer/blogActions";
 import {
@@ -34,19 +33,6 @@ import {
 } from "../../Redux/followerReducer/followerActions";
 import { isFollowing } from "../../utils/blogUtils";
 import { baseUrl } from "../../Redux/util";
-const initblogsArray = [
-  {
-    title: "blog",
-    desc: "lorem loremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremlorem ",
-    author: "faisal",
-    image:
-      "https://cdn.icon-icons.com/icons2/3398/PNG/512/old_medium_logo_icon_214707.png",
-    dateCreated: "2023-25-12",
-    id: "1",
-    category: "general",
-    tags: ["fashion", "healthcare"],
-  },
-];
 
 const Home = () => {
   const { randomProducts } = useSelector((state) => state.blogReducer);
@@ -84,7 +70,7 @@ const Home = () => {
     // console.log(Cookies.get("jwttoken"));
   }, []);
   useEffect(() => {
-    const token = getCookie("token");
+    const token = getToken("jwt_token");
     if (token) {
       dispatch(getUserDetails(token));
     }

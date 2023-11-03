@@ -19,14 +19,14 @@ import {
   Flex,
   Image,
 } from "@chakra-ui/react";
-import { getCookie } from "../../utils/cookies";
+import { getToken } from "../../utils/cookies";
 import Cookies from "js-cookie";
 const Navbar = () => {
   const { userDetails, isAuth } = useSelector((state) => state.userReducer);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const token = getCookie("jwttoken");
+    const token = getToken("jwt_token");
     console.log(token);
 
     if (token) {

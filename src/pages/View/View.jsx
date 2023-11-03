@@ -17,7 +17,6 @@ import {
   useDisclosure,
   Flex,
   Avatar,
-  getToken,
 } from "@chakra-ui/react";
 import styles from "./View.module.css";
 import HTMLToReact from "html-to-react";
@@ -41,7 +40,7 @@ import {
   unfollowUser,
 } from "./../../Redux/followerReducer/followerActions";
 import { isFollowing, isLiked } from "../../utils/blogUtils";
-import { getCookie } from "../../utils/cookies";
+import { getToken } from "../../utils/cookies";
 import {
   FaComment,
   FaRegBookmark,
@@ -88,7 +87,7 @@ const View = () => {
   const htmlToReactParser = new HTMLToReact.Parser();
 
   useEffect(() => {
-    const token = getCookie("jwttoken");
+    const token = getToken("jwt_token");
     if (token) {
       dispatch(getUserDetails(token));
     }
@@ -184,7 +183,7 @@ const View = () => {
                   fontSize={"1.4rem"}
                   onClick={() => {
                     if (isAuth) {
-                      const token = getCookie("jwttoken");
+                      const token = getToken("jwt_token");
 
                       dispatch(likeBlog(currentProduct?._id, token));
                     }
@@ -196,7 +195,7 @@ const View = () => {
                   fontSize={"1.4rem"}
                   onClick={() => {
                     if (isAuth) {
-                      const token = getCookie("jwttoken");
+                      const token = getToken("jwt_token");
 
                       dispatch(unlikeBlog(currentProduct?._id, token));
                     }

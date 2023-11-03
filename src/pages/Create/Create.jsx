@@ -12,13 +12,13 @@ import {
   Textarea,
   useToast,
 } from "@chakra-ui/react";
-import { getCookie } from "../../utils/cookies";
+import { getToken } from "../../utils/cookies";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.bubble.css";
 import Editor from "../../components/Quill/Editor";
 import { useSelector } from "react-redux";
+import { baseUrl } from "../../Redux/util";
 
-const baseUrl = "http://https://medium-backend-ut1y.vercel.app";
 const Create = () => {
   const toast = useToast();
   const toastIdRef = useRef();
@@ -49,7 +49,7 @@ const Create = () => {
   // console.log(formData);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = getCookie("jwttoken");
+    const token = getToken("jwt_token");
     try {
       const res = await axios.post(
         `${baseUrl}/blogs/create`,

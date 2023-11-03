@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../Redux/userReducer/userActions";
-import { getCookie } from "../../utils/cookies";
+import { getToken } from "../../utils/cookies";
 import { Field, Form, Formik } from "formik";
 import {
   Box,
@@ -18,6 +18,7 @@ import {
 import { FaGoogle } from "react-icons/fa";
 import { Navigate } from "react-router";
 import { Link } from "react-router-dom";
+import GoogleOAuthButton from "../../components/GoogleOauthButton/GoogleOauthButton";
 
 const initialFormData = {
   name: "",
@@ -96,18 +97,7 @@ const Login = () => {
           )}
         </Formik>
         <Center>
-          <Button
-            width={"61%"}
-            mt={"5"}
-            leftIcon={<FaGoogle />}
-            colorScheme="red"
-            onClick={() => {
-              window.location.href =
-                "https://medium-backend-ut1y.vercel.app/auth/google";
-            }}
-          >
-            Sign In with Google
-          </Button>
+          <GoogleOAuthButton />
         </Center>
         <Text textAlign="center" mt="1.5rem" color="#0f73d1">
           <Link to="/signup">Don't have an account? Register here</Link>

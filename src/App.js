@@ -10,10 +10,12 @@ import Login from "./pages/Login/Login";
 import Profile from "./pages/Profile/Profile";
 
 import ProfileUser from "./pages/ProfileUser/ProfileUser";
+import OAuthCallback from "./components/OAuthCallback/OAuthCallback";
 
 function App() {
   return (
     <div>
+      <OAuthCallback />
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />

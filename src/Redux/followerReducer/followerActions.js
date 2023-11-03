@@ -1,7 +1,7 @@
 import axios from "axios";
 import { baseUrl, createAction } from "../util";
 import { GET_FOLLOWERS_FOLLOWING } from "./followerTypes";
-import { getCookie } from "../../utils/cookies";
+import { getToken } from "../../utils/cookies";
 
 export const getFollowersFollowing = (userId) => async (dispatch) => {
   try {
@@ -15,7 +15,7 @@ export const getFollowersFollowing = (userId) => async (dispatch) => {
 
 export const followUser = (followerId, userId) => async (dispatch) => {
   try {
-    const token = getCookie("jwttoken");
+    const token = getToken("jwt_token");
     const res = await axios.post(
       `${baseUrl}/followers`,
       { followerId },
@@ -32,7 +32,7 @@ export const followUser = (followerId, userId) => async (dispatch) => {
 };
 
 export const unfollowUser = (followerId, userId) => async (dispatch) => {
-  const token = getCookie("jwttoken");
+  const token = getToken("jwt_token");
   try {
     const res = await axios.patch(
       `${baseUrl}/followers/decrease`,

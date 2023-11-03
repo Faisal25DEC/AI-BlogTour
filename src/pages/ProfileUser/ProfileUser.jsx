@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Avatar, Box, Flex, Heading, Image, Text } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
-import { getCookie } from "../../utils/cookies";
+import { getToken } from "../../utils/cookies";
 import { getProfileUser } from "../../Redux/userReducer/userActions";
 import { Navigate, useParams } from "react-router";
 import { getUserProducts } from "../../Redux/blogReducer/blogActions";
