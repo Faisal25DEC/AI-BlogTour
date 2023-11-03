@@ -31,7 +31,7 @@ export const signupUser = (user) => async (dispatch) => {
   try {
     const res = await axios.post(`${baseUrl}/users/signup`, user);
     console.log(res.data);
-    dispatch(loginUser(user));
+    dispatch(createAction(INITIATE_SIGNUP));
   } catch (err) {
     console.log(err.response.data);
     dispatch(createAction(SIGNUP_ERROR, err.response.data.msg));

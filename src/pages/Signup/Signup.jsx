@@ -29,7 +29,7 @@ const baseUrl = "http://localhost:https://medium-backend-ut1y.vercel.app/";
 const Signup = () => {
   const [formData, setFormData] = useState(initialFormData);
   const dispatch = useDispatch();
-  const { isAuth, signUpError } = useSelector((state) => state.userReducer);
+  const { signUp, signUpError } = useSelector((state) => state.userReducer);
   const toast = useToast();
   const toastIdRef = useRef();
 
@@ -48,8 +48,8 @@ const Signup = () => {
       }, 2000);
     }
   }, [signUpError]);
-  if (isAuth) {
-    return <Navigate to="/" />;
+  if (signUp) {
+    return <Navigate to="/login" />;
   }
 
   return (
