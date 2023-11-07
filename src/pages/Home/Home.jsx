@@ -37,6 +37,8 @@ import { isFollowing } from "../../utils/blogUtils";
 import { baseUrl } from "../../Redux/util";
 
 const Home = () => {
+  const [followerLoading, setFollowerLoading] = useState(false);
+
   const { randomProducts } = useSelector((state) => state.blogReducer);
   const [blogsArray, setBlogsArray] = useState([]);
 
@@ -172,9 +174,23 @@ const Home = () => {
                           addToast();
                         }
                         if (following && isFollowing(user._id, following)) {
-                          dispatch(unfollowUser(user._id, userDetails?._id));
+                          setFollowerLoading(index);
+                          dispatch(
+                            unfollowUser(
+                              user._id,
+                              userDetails?._id,
+                              setFollowerLoading
+                            )
+                          );
                         } else {
-                          dispatch(followUser(user._id, userDetails?._id));
+                          setFollowerLoading(index);
+                          dispatch(
+                            followUser(
+                              user._id,
+                              userDetails?._id,
+                              setFollowerLoading
+                            )
+                          );
                         }
                       }}
                       p="0 0.2rem"
@@ -182,9 +198,17 @@ const Home = () => {
                       fontSize="0.8rem"
                       variant={"outline"}
                     >
-                      {isFollowing(user._id, following)
-                        ? "Following"
-                        : "Follow"}
+                      {followerLoading === index ? (
+                        <Image
+                          width="20px"
+                          height="20px"
+                          src="https://i.gifer.com/ZKZg.gif"
+                        />
+                      ) : isFollowing(user._id, following) ? (
+                        "Following"
+                      ) : (
+                        "Follow"
+                      )}
                     </Button>
                   </Flex>
                 </Box>

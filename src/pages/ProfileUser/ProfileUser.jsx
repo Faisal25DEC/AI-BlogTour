@@ -20,7 +20,7 @@ const ProfileUser = () => {
 
   useEffect(() => {
     dispatch(getProfileUser(userId));
-  }, []);
+  }, [userId]);
 
   useEffect(() => {
     if (profileUser) {

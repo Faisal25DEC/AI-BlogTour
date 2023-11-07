@@ -20,7 +20,7 @@ import {
 } from "@chakra-ui/react";
 import styles from "./View.module.css";
 import HTMLToReact from "html-to-react";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { getSingleProduct } from "../../Redux/blogReducer/blogActions";
@@ -70,6 +70,8 @@ const blogsArray = [
   },
 ];
 const View = () => {
+  const [followerLoading, setFollowerLoading] = useState(null);
+  const [likeLoading, setLikeLoading] = useState(null);
   const { onOpen, isOpen, onClose } = useDisclosure();
   const btnRef = useRef();
   const { likes } = useSelector((state) => state.likeReducer);
@@ -132,18 +134,41 @@ const View = () => {
               color="green"
               cursor={"pointer"}
               onClick={() => {
+                if (!isAuth) {
+                  alert("login to follow");
+                }
                 if (isFollowing(profileUser?._id, following)) {
-                  dispatch(unfollowUser(profileUser?._id, userDetails._id));
+                  setFollowerLoading(true);
+                  dispatch(
+                    unfollowUser(
+                      profileUser?._id,
+                      userDetails._id,
+                      setFollowerLoading
+                    )
+                  );
                 } else {
-                  dispatch(followUser(profileUser?._id, userDetails._id));
+                  setFollowerLoading(true);
+                  dispatch(
+                    followUser(
+                      profileUser?._id,
+                      userDetails._id,
+                      setFollowerLoading
+                    )
+                  );
                 }
               }}
             >
-              {isAuth &&
-              profileUser?._id &&
-              isFollowing(profileUser?._id, following)
-                ? "Following"
-                : "Follow"}
+              {isAuth && profileUser?._id && followerLoading ? (
+                <Image
+                  src="https://i.gifer.com/ZKZg.gif"
+                  width="20px"
+                  height="20px"
+                />
+              ) : isFollowing(profileUser?._id, following) ? (
+                "Following"
+              ) : (
+                "Follow"
+              )}
             </Text>
           </Flex>
           <Flex gap="1rem">
@@ -178,32 +203,54 @@ const View = () => {
             </HStack>
             <HStack spacing={"1"}>
               {!isLiked(userDetails?._id, likes) ? (
-                <FaRegThumbsUp
-                  className={styles["blog-view-icons"]}
-                  fontSize={"1.4rem"}
-                  onClick={() => {
-                    if (isAuth) {
-                      const token = getToken("jwt_token");
-
-                      dispatch(likeBlog(currentProduct?._id, token));
-                    }
-                  }}
-                />
+                <Flex>
+                  <FaRegThumbsUp
+                    className={styles["blog-view-icons"]}
+                    fontSize={"1.4rem"}
+                    onClick={() => {
+                      if (isAuth) {
+                        const token = getToken("jwt_token");
+                        setLikeLoading(true);
+                        dispatch(
+                          likeBlog(currentProduct?._id, token, setLikeLoading)
+                        );
+                      }
+                    }}
+                  />
+                  <Text>{likes?.length && likes?.length}</Text>
+                  {likeLoading && (
+                    <Image
+                      src="https://i.gifer.com/ZKZg.gif"
+                      width="20px"
+                      height="20px"
+                    />
+                  )}
+                </Flex>
               ) : (
-                <FaThumbsUp
-                  className={styles["blog-view-icons"]}
-                  fontSize={"1.4rem"}
-                  onClick={() => {
-                    if (isAuth) {
-                      const token = getToken("jwt_token");
-
-                      dispatch(unlikeBlog(currentProduct?._id, token));
-                    }
-                  }}
-                />
+                <Flex>
+                  <FaThumbsUp
+                    className={styles["blog-view-icons"]}
+                    fontSize={"1.4rem"}
+                    onClick={() => {
+                      if (isAuth) {
+                        const token = getToken("jwt_token");
+                        setLikeLoading(true);
+                        dispatch(
+                          unlikeBlog(currentProduct?._id, token, setLikeLoading)
+                        );
+                      }
+                    }}
+                  />
+                  <Text>{likes?.length && likes?.length}</Text>
+                  {likeLoading && (
+                    <Image
+                      src="https://i.gifer.com/ZKZg.gif"
+                      width="20px"
+                      height="20px"
+                    />
+                  )}
+                </Flex>
               )}
-
-              <Text>{likes?.length && likes?.length}</Text>
             </HStack>
           </Flex>
           <HStack>
