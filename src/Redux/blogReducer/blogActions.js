@@ -9,6 +9,7 @@ import {
   GET_SINGLE_PRODUCT,
   GET_STATE_PRODUCTS,
   GET_USER_PRODUCTS,
+  SET_CURRENT_PRODUCT_NULL,
   SET_STATE_PRODUCTS_NULL,
 } from "./blogTypes";
 
@@ -71,12 +72,16 @@ export const setStateProductsNull = () => {
   return createAction(SET_STATE_PRODUCTS_NULL);
 };
 
-export const getSingleProduct = (id) => async (dispatch) => {
-  const apiRes = axios.get(`${baseUrl}/blogs/${id}`).then((res) => {
-    console.log(res);
-    dispatch(createAction(GET_SINGLE_PRODUCT, res.data));
-  });
-};
+export const getSingleProduct =
+  (id, setCurrentProductLoading) => async (dispatch) => {
+    dispatch(createAction(SET_CURRENT_PRODUCT_NULL));
+    setCurrentProductLoading(true);
+    const apiRes = axios.get(`${baseUrl}/blogs/${id}`).then((res) => {
+      console.log(res);
+      dispatch(createAction(GET_SINGLE_PRODUCT, res.data));
+      setCurrentProductLoading(false);
+    });
+  };
 
 export const getCurrentProductStateDetails = (state) => async (dispatch) => {
   const apiRes = axios.get(`${baseUrl}/state?name=${state}`).then((res) => {

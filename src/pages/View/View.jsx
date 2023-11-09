@@ -17,6 +17,8 @@ import {
   useDisclosure,
   Flex,
   Avatar,
+  SkeletonCircle,
+  SkeletonText,
 } from "@chakra-ui/react";
 import styles from "./View.module.css";
 import HTMLToReact from "html-to-react";
@@ -56,6 +58,8 @@ import {
   likeBlog,
   unlikeBlog,
 } from "../../Redux/likeReducer/likeActions";
+import { createAction } from "../../Redux/util";
+import { SET_CURRENT_PRODUCT_NULL } from "../../Redux/blogReducer/blogTypes";
 const blogsArray = [
   {
     title: "blog",
@@ -70,6 +74,7 @@ const blogsArray = [
   },
 ];
 const View = () => {
+  const [currentProductLoading, setCurrentProductLoading] = useState(false);
   const [followerLoading, setFollowerLoading] = useState(null);
   const [likeLoading, setLikeLoading] = useState(null);
   const { onOpen, isOpen, onClose } = useDisclosure();
@@ -89,12 +94,13 @@ const View = () => {
   const htmlToReactParser = new HTMLToReact.Parser();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const token = getToken("jwt_token");
     if (token) {
       dispatch(getUserDetails(token));
     }
 
-    dispatch(getSingleProduct(id));
+    dispatch(getSingleProduct(id, setCurrentProductLoading));
   }, []);
   useEffect(() => {
     if (currentProduct?._id) {
@@ -110,10 +116,10 @@ const View = () => {
     }
   }, [userDetails]);
 
-  return (
+  return currentProductLoading == false ? (
     <Box width={"50%"} m="auto" mt={"2rem"}>
       <Heading ml="3.4rem" mb={"1rem"}>
-        {currentProduct.title && capitalizeFirstLetter(currentProduct?.title)}
+        {currentProduct?.title && capitalizeFirstLetter(currentProduct?.title)}
         <Box mt="1rem">
           <hr></hr>
         </Box>
@@ -273,6 +279,31 @@ const View = () => {
         onOpen={onClose}
         isOpen={isOpen}
       />
+    </Box>
+  ) : (
+    <Box padding="6" bg="transparent" width={"50%"} m="auto" mt="4rem">
+      <SkeletonText
+        mt="4"
+        noOfLines={1}
+        spacing="4"
+        skeletonHeight="10"
+        width={"50%"}
+      />
+      <Box display={"flex"} mt="1rem" alignItems={"center"} gap="1rem">
+        {" "}
+        <SkeletonCircle size="10" w="45px" h="45px"></SkeletonCircle>
+        <SkeletonText noOfLines={2} skeletonHeight="2" width={"50%"} />
+      </Box>
+      <Flex alignItems={"center"} gap="1rem" mt="1rem">
+        <SkeletonCircle size="10" w="35px" h="35px"></SkeletonCircle>
+        <SkeletonCircle size="10" w="35px" h="35px"></SkeletonCircle>
+      </Flex>
+
+      <SkeletonText mt="4" noOfLines={1} spacing="4" skeletonHeight="20" />
+      <SkeletonText mt="4" noOfLines={4} spacing="4" skeletonHeight="2" />
+      <SkeletonText mt="4" noOfLines={4} spacing="4" skeletonHeight="2" />
+      <SkeletonText mt="4" noOfLines={4} spacing="4" skeletonHeight="2" />
+      <SkeletonText mt="4" noOfLines={4} spacing="4" skeletonHeight="2" />
     </Box>
   );
 };

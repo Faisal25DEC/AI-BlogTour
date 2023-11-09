@@ -40,10 +40,10 @@ const BlogCard = ({ blog, onProfile }) => {
       variant="outline"
     >
       <Flex>
-        <Box width="75%">
+        <Box width="78%">
           <Stack>
             <CardBody>
-              <Flex gap="1.4rem" alignItems="center">
+              <Flex gap="1rem" alignItems="center">
                 <Flex alignItems={"center"} gap="4px">
                   <FaUser />
 
@@ -54,7 +54,7 @@ const BlogCard = ({ blog, onProfile }) => {
                 </Flex>
                 <Text>
                   {monthMap[+dateCreated.substring(5, 7)]}{" "}
-                  {dateCreated.substring(8, 10)}{" "}, {dateCreated.substring(0,4)}
+                  {dateCreated.substring(8, 10)} , {dateCreated.substring(0, 4)}
                 </Text>
                 <Text>{category} </Text>
               </Flex>
@@ -62,7 +62,7 @@ const BlogCard = ({ blog, onProfile }) => {
                 {title}
               </Heading>
 
-              <Text py="2">{text?.substring(0, 120)}</Text>
+              <Text py="2">{text?.substring(0, 250)}...</Text>
             </CardBody>
 
             <CardFooter width="100%">

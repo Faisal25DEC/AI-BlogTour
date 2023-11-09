@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Avatar, Box, Flex, Heading, Image, Text } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { getToken } from "../../utils/cookies";
@@ -8,8 +8,10 @@ import { getUserProducts } from "../../Redux/blogReducer/blogActions";
 import { blogReducer } from "./../../Redux/blogReducer/blogReducer";
 import BlogCard from "../../components/BlogCard/BlogCard";
 import { getFollowersFollowing } from "../../Redux/followerReducer/followerActions";
+import ProfileLoader from "../../components/ProfileLoader/ProfileLoader";
 
 const ProfileUser = () => {
+  const [profileLoading, setProfileLoading] = useState(false);
   const { profileUser, isAuth } = useSelector((state) => state.userReducer);
   const { userProducts } = useSelector((state) => state.blogReducer);
   const { followers, following } = useSelector(
@@ -19,6 +21,8 @@ const ProfileUser = () => {
   const { userId } = useParams();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+    setProfileLoading(true);
     dispatch(getProfileUser(userId));
   }, [userId]);
 
@@ -26,11 +30,16 @@ const ProfileUser = () => {
     if (profileUser) {
       dispatch(getUserProducts(profileUser._id));
       dispatch(getFollowersFollowing(profileUser._id));
+      setTimeout(() => {
+        setProfileLoading(false);
+      }, 1000);
     }
   }, [profileUser]);
   console.log(userProducts);
 
-  return (
+  return profileLoading ? (
+    <ProfileLoader />
+  ) : (
     <Box width="80%" m="auto" mt="10%">
       <Flex>
         <Box flexBasis={"70%"}>

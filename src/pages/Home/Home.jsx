@@ -151,78 +151,94 @@ const Home = () => {
                 );
               })}
         </Box>
-        {randomUsers?.length > 0 ? (
-          randomUsers?.map((user, index) => {
-            const { name, image, _id } = user;
-            if (user._id != userDetails?._id && index < 4) {
+        {randomUsers?.length > 0
+          ? randomUsers?.map((user, index) => {
+              const { name, image, _id } = user;
+              if (user._id != userDetails?._id && index < 4) {
+                return (
+                  <Box width={"100%"}>
+                    <Flex justifyContent={"flex-start"} width="100%" gap="1rem">
+                      <Avatar
+                        size="sm"
+                        name="Kent Dodds"
+                        src={
+                          image
+                            ? image
+                            : "https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg"
+                        }
+                      />
+                      <Link to={`/profile/${_id}`}>{name}</Link>
+                      <Button
+                        onClick={() => {
+                          if (!isAuth) {
+                            addToast();
+                          }
+                          if (following && isFollowing(user._id, following)) {
+                            setFollowerLoading(index);
+                            dispatch(
+                              unfollowUser(
+                                user._id,
+                                userDetails?._id,
+                                setFollowerLoading
+                              )
+                            );
+                          } else {
+                            setFollowerLoading(index);
+                            dispatch(
+                              followUser(
+                                user._id,
+                                userDetails?._id,
+                                setFollowerLoading
+                              )
+                            );
+                          }
+                        }}
+                        p="0 0.2rem"
+                        height="2rem"
+                        fontSize="0.8rem"
+                        variant={"outline"}
+                      >
+                        {followerLoading === index ? (
+                          <Image
+                            width="20px"
+                            height="20px"
+                            src="https://i.gifer.com/ZKZg.gif"
+                          />
+                        ) : isFollowing(user._id, following) ? (
+                          "Following"
+                        ) : (
+                          "Follow"
+                        )}
+                      </Button>
+                    </Flex>
+                  </Box>
+                );
+              }
+            })
+          : Array.from({ length: 3 }, (_, idx) => {
               return (
-                <Box width={"100%"}>
-                  <Flex justifyContent={"flex-start"} width="100%" gap="1rem">
-                    <Avatar
-                      size="sm"
-                      name="Kent Dodds"
-                      src={
-                        image
-                          ? image
-                          : "https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg"
-                      }
-                    />
-                    <Link to={`/profile/${_id}`}>{name}</Link>
-                    <Button
-                      onClick={() => {
-                        if (!isAuth) {
-                          addToast();
-                        }
-                        if (following && isFollowing(user._id, following)) {
-                          setFollowerLoading(index);
-                          dispatch(
-                            unfollowUser(
-                              user._id,
-                              userDetails?._id,
-                              setFollowerLoading
-                            )
-                          );
-                        } else {
-                          setFollowerLoading(index);
-                          dispatch(
-                            followUser(
-                              user._id,
-                              userDetails?._id,
-                              setFollowerLoading
-                            )
-                          );
-                        }
-                      }}
-                      p="0 0.2rem"
-                      height="2rem"
-                      fontSize="0.8rem"
-                      variant={"outline"}
-                    >
-                      {followerLoading === index ? (
-                        <Image
-                          width="20px"
-                          height="20px"
-                          src="https://i.gifer.com/ZKZg.gif"
-                        />
-                      ) : isFollowing(user._id, following) ? (
-                        "Following"
-                      ) : (
-                        "Follow"
-                      )}
-                    </Button>
-                  </Flex>
+                <Box
+                  bg="transparent"
+                  width={"100%"}
+                  display={"flex"}
+                  alignItems={"center"}
+                  gap="1rem"
+                >
+                  <SkeletonCircle size="7" />
+
+                  <SkeletonText
+                    noOfLines={1}
+                    skeletonHeight="2"
+                    width={"20%"}
+                  />
+                  <SkeletonText
+                    noOfLines={1}
+                    skeletonHeight="2"
+                    width={"20%"}
+                  />
                 </Box>
               );
-            }
-          })
-        ) : (
-          <Box padding="2" bg="transparent" width={"100%"} display={"flex"}>
-            <SkeletonCircle size="10" />
-
-            <SkeletonText noOfLines={1} skeletonHeight="5" />
-            <SkeletonText noOfLines={1} skeletonHeight="5" />
-          </Box>
-        )}
+            })}
       </VStack>
     </Flex>
   );

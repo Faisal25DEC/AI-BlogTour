@@ -1,5 +1,14 @@
-import React, { useEffect } from "react";
-import { Avatar, Box, Flex, Heading, Image, Text } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
+import {
+  Avatar,
+  Box,
+  Flex,
+  Heading,
+  Image,
+  SkeletonCircle,
+  SkeletonText,
+  Text,
+} from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { getToken } from "../../utils/cookies";
 import { getUserDetails } from "../../Redux/userReducer/userActions";
@@ -8,8 +17,11 @@ import { getUserProducts } from "../../Redux/blogReducer/blogActions";
 import { blogReducer } from "./../../Redux/blogReducer/blogReducer";
 import BlogCard from "../../components/BlogCard/BlogCard";
 import { getFollowersFollowing } from "../../Redux/followerReducer/followerActions";
+import ProfileLoader from "../../components/ProfileLoader/ProfileLoader";
 
 const Profile = () => {
+  const [auth, setAuth] = useState(true);
+  const [profileLoading, setProfileLoading] = useState(false);
   const { userDetails, isAuth } = useSelector((state) => state.userReducer);
   const { userProducts } = useSelector((state) => state.blogReducer);
   const { followers, following } = useSelector(
@@ -20,7 +32,10 @@ const Profile = () => {
   useEffect(() => {
     const token = getToken("jwt_token");
     if (token) {
+      setProfileLoading(true);
       dispatch(getUserDetails(token));
+    } else {
+      setAuth(false);
     }
   }, []);
 
@@ -28,13 +43,18 @@ const Profile = () => {
     if (userDetails) {
       dispatch(getUserProducts(userDetails._id));
       dispatch(getFollowersFollowing(userDetails._id));
+      setTimeout(() => {
+        setProfileLoading(false);
+      }, 1000);
     }
   }, [userDetails]);
   console.log(userProducts);
-  if (!isAuth) {
+  if (!auth) {
     return <Navigate to="/login" />;
   }
-  return (
+  return profileLoading ? (
+    <ProfileLoader />
+  ) : (
     <Box width="80%" m="auto" mt="10%">
       <Flex>
         <Box flexBasis={"70%"}>

@@ -6,6 +6,7 @@ import {
   GET_SINGLE_PRODUCT,
   GET_STATE_PRODUCTS,
   GET_USER_PRODUCTS,
+  SET_CURRENT_PRODUCT_NULL,
   SET_STATE_PRODUCTS_NULL,
 } from "./blogTypes";
 
@@ -69,6 +70,12 @@ export const blogReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         userProducts: [...payload],
+      };
+    }
+    case SET_CURRENT_PRODUCT_NULL: {
+      return {
+        ...state,
+        currentProduct: null,
       };
     }
     default: {
