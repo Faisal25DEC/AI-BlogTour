@@ -86,7 +86,7 @@ const Home = () => {
   console.log(following);
 
   return (
-    <Flex width="95%" m="auto" justifyContent={"space-between"}>
+    <Flex width="90%" m="auto" justifyContent={"flex-end"} gap="10%">
       <Box width="60%">
         {blogsArray.length > 0
           ? blogsArray?.map((blog) => {
@@ -107,7 +107,7 @@ const Home = () => {
             })}
       </Box>
 
-      <VStack mt="2.5rem" mr="2.5rem" width="30%" alignItems={"flex-start"}>
+      <VStack mt="2.5rem" mr="2.5rem" width="22.5%" alignItems={"flex-start"}>
         <Box width={"100%"}>
           {randomProducts?.length > 0
             ? randomProducts.map((blog, index) => {
@@ -134,6 +134,9 @@ const Home = () => {
                         >
                           <Heading size="sm">{title}</Heading>
                         </Flex>
+                        <Text color={"black"} fontSize="13px">
+                          {text.substring(0, 35)}...
+                        </Text>
                         <Box p="0.3rem 0">
                           <hr></hr>
                         </Box>
