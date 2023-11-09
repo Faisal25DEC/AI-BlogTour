@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Box,
   Button,
   Card,
@@ -28,6 +29,7 @@ const BlogCard = ({ blog, onProfile }) => {
     author,
     author_id,
     category,
+    authorImage,
   } = blog;
   return (
     <Card
@@ -44,8 +46,8 @@ const BlogCard = ({ blog, onProfile }) => {
           <Stack>
             <CardBody>
               <Flex gap="1rem" alignItems="center">
-                <Flex alignItems={"center"} gap="4px">
-                  <FaUser />
+                <Flex alignItems={"center"} gap=".6rem">
+                  <Avatar src={authorImage} size="xs" />
 
                   <Link m={"0"} height="80%" to={`/profile/${author_id}`}>
                     {" "}

@@ -35,6 +35,7 @@ import {
 } from "../../Redux/followerReducer/followerActions";
 import { isFollowing } from "../../utils/blogUtils";
 import { baseUrl } from "../../Redux/util";
+import { monthMap } from "../../utils/blogCard";
 
 const Home = () => {
   const [followerLoading, setFollowerLoading] = useState(false);
@@ -111,17 +112,21 @@ const Home = () => {
         <Box width={"100%"}>
           {randomProducts?.length > 0
             ? randomProducts.map((blog, index) => {
-                const { title, category, author, text } = blog;
+                const {
+                  title,
+                  category,
+                  author,
+                  text,
+                  dateCreated,
+                  authorImage,
+                } = blog;
                 if (index < 4) {
                   return (
                     <Link to={`/blog/${blog._id}`}>
                       <Box mb="1rem">
                         <Link to={`/profile/${blog.author_id}`}>
                           <Flex alignItems={"center"} gap="0.6rem">
-                            <Avatar
-                              size="xs"
-                              src="https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745"
-                            />
+                            <Avatar size="xs" src={authorImage} />
                             <Text fontSize={"0.9rem"} fontWeight={"medium"}>
                               {author}
                             </Text>
@@ -133,6 +138,12 @@ const Home = () => {
                           mt="0.5rem"
                         >
                           <Heading size="sm">{title}</Heading>
+                          <Text fontSize="12.5px" fontWeight={"medium"}>
+                            {" "}
+                            {monthMap[+dateCreated.substring(5, 7)]}{" "}
+                            {dateCreated.substring(8, 10)} ,{" "}
+                            {dateCreated.substring(0, 4)}
+                          </Text>
                         </Flex>
                         <Text color={"black"} fontSize="13px">
                           {text.substring(0, 35)}...

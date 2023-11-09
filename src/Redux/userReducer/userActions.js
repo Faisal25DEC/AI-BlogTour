@@ -47,6 +47,7 @@ export const loginUser = (user) => async (dispatch) => {
     localStorage.setItem("jwt_token", res.data.token);
 
     dispatch(createAction(LOGIN_USER));
+    window.location.href = "/";
   } catch (err) {
     console.log(err);
   }
