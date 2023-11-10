@@ -137,7 +137,11 @@ const Home = () => {
                           justifyContent={"space-between"}
                           mt="0.5rem"
                         >
-                          <Heading size="sm">{title}</Heading>
+                          <Heading size="sm">
+                            {title.length > 25
+                              ? title.substring(0, 25) + "..."
+                              : title}
+                          </Heading>
                           <Text fontSize="12.5px" fontWeight={"medium"}>
                             {" "}
                             {monthMap[+dateCreated.substring(5, 7)]}{" "}

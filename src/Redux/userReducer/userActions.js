@@ -44,10 +44,12 @@ export const loginUser = (user) => async (dispatch) => {
       withCredentials: "include",
     });
     console.log(res);
-    localStorage.setItem("jwt_token", res.data.token);
+    if (res.data.token) {
+      localStorage.setItem("jwt_token", res.data.token);
 
-    dispatch(createAction(LOGIN_USER));
-    window.location.href = "/";
+      dispatch(createAction(LOGIN_USER));
+      window.location.href = "/";
+    }
   } catch (err) {
     console.log(err);
   }
