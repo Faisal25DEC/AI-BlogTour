@@ -4,6 +4,7 @@ nav {
   align-items: center;
   width: 95%;
   margin: auto;
+  margin-top: 1rem;
 }
 nav .logo-wrapper {
   width: 10%;
@@ -11,15 +12,15 @@ nav .logo-wrapper {
 }
 
 nav .logo {
-  width: 100%;
   display: flex;
   font-size: 22px;
   align-items: center;
 }
+
 nav img {
   display: block;
   height: inherit;
-  width: 30%;
+  width: 3rem;
   background: transparent;
   margin-bottom: 0.3rem;
 }

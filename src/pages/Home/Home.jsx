@@ -49,6 +49,7 @@ const Home = () => {
   const { followers, following } = useSelector(
     (state) => state.followerReducer
   );
+
   const toastIdRef = useRef();
   const toast = useToast();
   const dispatch = useDispatch();
@@ -87,8 +88,8 @@ const Home = () => {
   console.log(following);
 
   return (
-    <Flex width="90%" m="auto" justifyContent={"flex-end"} gap="10%">
-      <Box width="60%">
+    <Flex width={"90%"} m="auto" justifyContent={"flex-end"} gap="10%">
+      <Box width={["100%"]}>
         {blogsArray.length > 0
           ? blogsArray?.map((blog) => {
               return <BlogCard blog={blog} />;
@@ -108,7 +109,13 @@ const Home = () => {
             })}
       </Box>
 
-      <VStack mt="2.5rem" mr="2.5rem" width="22.5%" alignItems={"flex-start"}>
+      <VStack
+        mt="2.5rem"
+        mr="2.5rem"
+        width="22.5%"
+        alignItems={"flex-start"}
+        display={{ base: "none", md: "none", lg: "block" }}
+      >
         <Box width={"100%"}>
           {randomProducts?.length > 0
             ? randomProducts.map((blog, index) => {

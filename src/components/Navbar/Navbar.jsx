@@ -11,20 +11,18 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  MenuItemOption,
   MenuGroup,
-  MenuOptionGroup,
   MenuDivider,
   Button,
   Flex,
   Image,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import { getToken } from "../../utils/cookies";
-import Cookies from "js-cookie";
 const Navbar = () => {
   const { userDetails, isAuth } = useSelector((state) => state.userReducer);
   const dispatch = useDispatch();
-
+  const [isLargerThan800] = useMediaQuery("(min-width: 800px)");
   useEffect(() => {
     const token = getToken("jwt_token");
     console.log(token);
@@ -46,7 +44,7 @@ const Navbar = () => {
         </div>
       </Link>
 
-      <input type="text" id="search" placeholder="Seach" />
+      {isLargerThan800 && <input type="text" id="search" placeholder="Seach" />}
       <div className="nav-link-wrapper">
         {isAuth && (
           <Link to="/create" className="nav-link">

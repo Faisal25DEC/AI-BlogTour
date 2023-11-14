@@ -55,10 +55,12 @@ const Profile = () => {
   return profileLoading ? (
     <ProfileLoader />
   ) : (
-    <Box width="80%" m="auto" mt="10%">
-      <Flex>
+    <Box width={{ base: "100%", md: "90%", lg: "80%" }} m="auto" mt="10%">
+      <Flex flexDirection={{ base: "column-reverse", md: "row" }}>
         <Box flexBasis={"70%"}>
-          <Heading mb="1rem">{userDetails?.name}</Heading>
+          <Heading mb="1rem" display={{ base: "none", md: "block" }}>
+            {userDetails?.name}
+          </Heading>
           <hr />
           <Box overflow={"scroll"} height="75vh">
             {userProducts.length === 0 && (
@@ -72,7 +74,11 @@ const Profile = () => {
               })}
           </Box>
         </Box>
-        <Box borderLeft={"solid 0.4px #dedad9"} height="75vh" pl="10">
+        <Box
+          borderLeft={{ base: "none", md: "solid 0.4px #dedad9" }}
+          height={{ base: "35vh", md: "75vh" }}
+          pl="10"
+        >
           <Image
             src={
               userDetails?.image

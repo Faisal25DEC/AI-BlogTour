@@ -2,18 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import styles from "./create.module.css";
 import axios from "axios";
 
-import {
-  Alert,
-  AlertIcon,
-  Button,
-  Flex,
-  Input,
-  Select,
-  Textarea,
-  useToast,
-} from "@chakra-ui/react";
+import { Button, Flex, Input, Select, useToast } from "@chakra-ui/react";
 import { getToken } from "../../utils/cookies";
-import ReactQuill from "react-quill";
 import "react-quill/dist/quill.bubble.css";
 import Editor from "../../components/Quill/Editor";
 import { useSelector } from "react-redux";
@@ -30,23 +20,8 @@ const Create = () => {
   const [text, setText] = useState("");
   const [image, setImage] = useState("");
   const [blogPosted, setBlogPosted] = useState(false);
+  const [createLoading, setCreateLoading] = useState(false);
 
-  // const handleFormFieldChange = (e) => {
-  //   const { name, value } = e.target;
-
-  //   if (name == "tags") {
-  //     setFormData({
-  //       ...formData,
-  //       [name]: value.split(","),
-  //     });
-  //   } else {
-  //     setFormData({
-  //       ...formData,
-  //       [name]: value,
-  //     });
-  //   }
-  // };
-  // console.log(formData);
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = getToken("jwt_token");
@@ -82,23 +57,24 @@ const Create = () => {
       description: "Select text to upload image/video above it",
     });
   }
-  function addSuccessToast() {
-    toastIdRef.current = toast({
-      status: "success",
 
-      color: "blue",
-      description: "Blog Posted Successfully ✌️",
-      position: "top",
-    });
-  }
   useEffect(() => {
+    function addSuccessToast() {
+      toastIdRef.current = toast({
+        status: "success",
+
+        color: "blue",
+        description: "Blog Posted Successfully ✌️",
+        position: "top",
+      });
+    }
     if (blogPosted) {
       addSuccessToast();
       setTimeout(() => {
         setBlogPosted(false);
       }, 2000);
     }
-  }, [blogPosted]);
+  }, [blogPosted, toast]);
   useEffect(() => {
     addToast();
   }, []);
@@ -122,9 +98,14 @@ const Create = () => {
         setImage={setImage}
         setText={setText}
       />
-      <Flex width="80%" m="auto" gap="1rem">
+      <Flex
+        width="80%"
+        m="auto"
+        gap="1rem"
+        flexDirection={{ base: "column", md: "row" }}
+      >
         <Select
-          width="25%"
+          width={{ base: "100%", md: "25%" }}
           name="category"
           onChange={(e) => {
             setCategory(e.target.value);
@@ -143,7 +124,18 @@ const Create = () => {
             setTags(e.target.value.split(","));
           }}
         />
-        <Button colorScheme="green" width="15%" onClick={handleSubmit}>
+        <Button
+          colorScheme="green"
+          width={{ base: "100%", md: "15%" }}
+          isLoading={createLoading}
+          onClick={(e) => {
+            setCreateLoading(true);
+            isAuth && handleSubmit(e);
+            setTimeout(() => {
+              setCreateLoading(false);
+            }, 500);
+          }}
+        >
           Publish
         </Button>
       </Flex>

@@ -1,19 +1,9 @@
 import {
   Box,
-  Grid,
-  GridItem,
   HStack,
   Heading,
   Image,
   Text,
-  Drawer,
-  DrawerBody,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
-  Button,
   useDisclosure,
   Flex,
   Avatar,
@@ -44,35 +34,17 @@ import {
 import { isFollowing, isLiked } from "../../utils/blogUtils";
 import { getToken } from "../../utils/cookies";
 import {
-  FaComment,
   FaRegBookmark,
   FaRegComment,
-  FaRegSave,
   FaRegThumbsUp,
   FaThumbsUp,
 } from "react-icons/fa";
 import { getBlogComments } from "../../Redux/commentReducer/commentActions";
-import { Link } from "react-router-dom";
 import {
   getBlogLikes,
   likeBlog,
   unlikeBlog,
 } from "../../Redux/likeReducer/likeActions";
-import { createAction } from "../../Redux/util";
-import { SET_CURRENT_PRODUCT_NULL } from "../../Redux/blogReducer/blogTypes";
-const blogsArray = [
-  {
-    title: "blog",
-    desc: "lorem loremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremlorem ",
-    author: "faisal",
-    image:
-      "https://cdn.icon-icons.com/icons2/3398/PNG/512/old_medium_logo_icon_214707.png",
-    dateCreated: "2023-25-12",
-    id: "1",
-    category: "general",
-    tags: ["fashion", "healthcare"],
-  },
-];
 const View = () => {
   const [currentProductLoading, setCurrentProductLoading] = useState(false);
   const [followerLoading, setFollowerLoading] = useState(null);
@@ -117,7 +89,11 @@ const View = () => {
   }, [userDetails]);
 
   return currentProductLoading == false ? (
-    <Box width={"50%"} m="auto" mt={"2rem"}>
+    <Box
+      width={{ base: "100%", md: "90%", lg: "80%", xl: "50%" }}
+      m="auto"
+      mt={"2rem"}
+    >
       <Heading ml="3.4rem" mb={"1rem"}>
         {currentProduct?.title && capitalizeFirstLetter(currentProduct?.title)}
         <Box mt="1rem">
@@ -281,7 +257,13 @@ const View = () => {
       />
     </Box>
   ) : (
-    <Box padding="6" bg="transparent" width={"50%"} m="auto" mt="4rem">
+    <Box
+      padding="6"
+      bg="transparent"
+      width={{ base: "100%", md: "90%", lg: "80%", xl: "50%" }}
+      m="auto"
+      mt="4rem"
+    >
       <SkeletonText
         mt="4"
         noOfLines={1}

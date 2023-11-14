@@ -11,6 +11,7 @@ import {
   Spacer,
   Stack,
   Text,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import { FaPersonBooth, FaUser } from "react-icons/fa";
 import React from "react";
@@ -31,6 +32,9 @@ const BlogCard = ({ blog, onProfile }) => {
     category,
     authorImage,
   } = blog;
+
+  const [isNotSmallerScreen] = useMediaQuery("(min-width:800px");
+
   return (
     <Card
       border={"0px"}
@@ -42,7 +46,7 @@ const BlogCard = ({ blog, onProfile }) => {
       variant="outline"
     >
       <Flex>
-        <Box width="78%">
+        <Box width="100%">
           <Stack>
             <CardBody>
               <Flex gap="1rem" alignItems="center">
@@ -54,7 +58,7 @@ const BlogCard = ({ blog, onProfile }) => {
                     {author}
                   </Link>
                 </Flex>
-                <Text>
+                <Text fontSize={{ base: "12px" }}>
                   {monthMap[+dateCreated.substring(5, 7)]}{" "}
                   {dateCreated.substring(8, 10)} , {dateCreated.substring(0, 4)}
                 </Text>
@@ -64,19 +68,29 @@ const BlogCard = ({ blog, onProfile }) => {
                 {title}
               </Heading>
 
-              <Text py="2">{text?.substring(0, 250)}...</Text>
+              <Text py="2">
+                {isNotSmallerScreen
+                  ? text?.substring(0, 250)
+                  : text?.substring(0, 75)}
+                ...
+              </Text>
             </CardBody>
 
             <CardFooter width="100%">
               <Flex gap="1.4rem" alignItems={"center"}>
-                <Text bg={"#d4d6d5"} padding={"0px 10px"} borderRadius={"15px"}>
+                <Text
+                  bg={"#f0eeeb"}
+                  padding={"0px 10px"}
+                  borderRadius={"15px"}
+                  fontWeight={"medium"}
+                >
                   {tags.join(",")}
                 </Text>
                 <Text>{getBlogReadTime(text?.length)} read</Text>
                 <Link to={`/blog/${_id}`}>
                   <Button
                     ml="auto"
-                    width={"9rem"}
+                    width={["6.5rem", "6.5rem", "8rem"]}
                     variant="solid"
                     bg={"black"}
                     color={"whitesmoke"}
@@ -98,8 +112,9 @@ const BlogCard = ({ blog, onProfile }) => {
           <Flex justifyContent={"center"} alignItems={"center"} height="100%">
             <Image
               objectFit="cover"
-              width={"155px"}
-              height={"155px"}
+              width={["7rem", "7rem", "9.5rem"]}
+              height={["7rem", "7rem", "9.5rem"]}
+              display={{ base: "none", md: "none", lg: "block" }}
               // maxW={{ base: "100%", sm: "200px" }}
               src={
                 image
