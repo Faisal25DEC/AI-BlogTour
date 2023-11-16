@@ -30,7 +30,6 @@ export const getProducts = (page) => async (dispatch) => {
   const apiRes = axios
     .get(`${baseUrl}/blogs?page=${page}&limit=9`)
     .then((res) => {
-      console.log(res.data);
       dispatch(createAction(GET_PRODUCT_SUCCESS, res.data));
     })
     .catch(() => {
@@ -39,7 +38,6 @@ export const getProducts = (page) => async (dispatch) => {
 };
 export const getRandomProducts = () => (dispatch) => {
   const apiRes = axios.get(`${baseUrl}/blogs`).then((res) => {
-    console.log(res.data);
     const randomBlogs = [];
     for (let i = 0; i < Math.min(8, res.data.length); i++) {
       const idx = Math.floor(Math.random() * res.data.length);
@@ -51,7 +49,7 @@ export const getRandomProducts = () => (dispatch) => {
 export const getUserProducts = (userId) => async (dispatch) => {
   try {
     const res = await axios.get(`${baseUrl}/blogs/user/${userId}`);
-    console.log(res);
+
     dispatch(createAction(GET_USER_PRODUCTS, res.data));
   } catch (err) {
     console.log(err);
@@ -59,11 +57,9 @@ export const getUserProducts = (userId) => async (dispatch) => {
 };
 
 export const getStateProducts = (state) => async (dispatch) => {
-  console.log(state);
   const apiRes = axios
     .get(`${baseUrl}/blogs?state_like=${state}`)
     .then((res) => {
-      console.log(res.data);
       dispatch(createAction(GET_STATE_PRODUCTS, res.data));
     });
 };
@@ -77,7 +73,6 @@ export const getSingleProduct =
     dispatch(createAction(SET_CURRENT_PRODUCT_NULL));
     setCurrentProductLoading(true);
     const apiRes = axios.get(`${baseUrl}/blogs/${id}`).then((res) => {
-      console.log(res);
       dispatch(createAction(GET_SINGLE_PRODUCT, res.data));
       setCurrentProductLoading(false);
     });

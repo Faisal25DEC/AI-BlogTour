@@ -2,8 +2,8 @@ import { Box, Flex, SkeletonCircle, SkeletonText } from "@chakra-ui/react";
 
 const ProfileLoader = () => {
   return (
-    <Box width={"80%"} m="auto" mt="12.5%">
-      <Flex gap="2rem">
+    <Box width={{ base: "100%", md: "90%", lg: "80%" }} m="auto" mt="12.5%">
+      <Flex gap="2rem" flexDirection={{ base: "column-reverse", md: "row" }}>
         <Box flexBasis={"70%"}>
           <SkeletonText noOfLines={1} skeletonHeight="10" width={"40%"} />
           {Array.from({ length: 5 }, (_, index) => {

@@ -70,7 +70,7 @@ const Login = () => {
                     isInvalid={form.errors.password && form.touched.password}
                   >
                     <FormLabel>Password</FormLabel>
-                    <Input {...field} placeholder="password" />
+                    <Input {...field} placeholder="password" type="password" />
                     <FormErrorMessage>{form.errors.password}</FormErrorMessage>
                   </FormControl>
                 )}

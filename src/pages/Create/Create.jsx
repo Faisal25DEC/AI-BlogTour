@@ -42,9 +42,15 @@ const Create = () => {
           },
         }
       );
-      console.log("posted");
-      console.log(text);
+
       setBlogPosted(true);
+      setText("");
+      setImage(null);
+      setTitle(null);
+      setCategory(null);
+      setTags(null);
+      setEditorContent(null);
+      window.location.href = "/";
     } catch (err) {
       console.log(err);
     }
@@ -78,7 +84,6 @@ const Create = () => {
   useEffect(() => {
     addToast();
   }, []);
-  console.log(text);
 
   return (
     <div>

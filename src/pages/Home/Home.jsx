@@ -37,8 +37,18 @@ import { isFollowing } from "../../utils/blogUtils";
 import { baseUrl } from "../../Redux/util";
 import { monthMap } from "../../utils/blogCard";
 
+const categories = [
+  "All",
+  "Technology",
+  "Fashion",
+  "Business",
+  "Politics",
+  "Sports",
+];
+
 const Home = () => {
   const [followerLoading, setFollowerLoading] = useState(false);
+  const [categoryIndex, setCategoryIndex] = useState(0);
 
   const { randomProducts } = useSelector((state) => state.blogReducer);
   const [blogsArray, setBlogsArray] = useState([]);
@@ -58,7 +68,6 @@ const Home = () => {
 
     const res = await axios.get(`${baseUrl}/blogs`);
     setBlogsArray(res.data);
-    console.log(res);
   };
 
   function addToast() {
@@ -72,8 +81,6 @@ const Home = () => {
   useEffect(() => {
     getBlogs();
     dispatch(getRandomProducts());
-
-    // console.log(Cookies.get("jwttoken"));
   }, []);
   useEffect(() => {
     const token = getToken("jwt_token");
@@ -85,15 +92,40 @@ const Home = () => {
     dispatch(getFollowersFollowing(userDetails?._id));
     dispatch(getRandomUsers());
   }, [userDetails]);
-  console.log(following);
 
   return (
     <Flex width={"90%"} m="auto" justifyContent={"flex-end"} gap="10%">
-      <Box width={["100%"]}>
+      <Box width={{ base: "100%", md: "65%" }}>
+        <Flex gap="0.3rem">
+          {categories.map((category, index) => {
+            return (
+              <Button
+                size={"sm"}
+                backgroundColor={"white"}
+                border="none"
+                borderBottom={
+                  categoryIndex === index ? "solid 1px lightgray" : ""
+                }
+                borderRadius={"0"}
+                onClick={() => setCategoryIndex(index)}
+                _hover={{ backgroundColor: "white" }}
+              >
+                {category}
+              </Button>
+            );
+          })}
+        </Flex>
         {blogsArray.length > 0
-          ? blogsArray?.map((blog) => {
-              return <BlogCard blog={blog} />;
-            })
+          ? blogsArray
+              ?.sort((a, b) => b.dateCreated.localeCompare(a.dateCreated))
+              .filter(
+                (ele) =>
+                  categories[categoryIndex] === "All" ||
+                  ele.category === categories[categoryIndex]
+              )
+              .map((blog) => {
+                return <BlogCard blog={blog} />;
+              })
           : Array.from({ length: 5 }, (_, index) => {
               return (
                 <Box padding="6" bg="transparent">
@@ -112,7 +144,7 @@ const Home = () => {
       <VStack
         mt="2.5rem"
         mr="2.5rem"
-        width="22.5%"
+        width="25%"
         alignItems={"flex-start"}
         display={{ base: "none", md: "none", lg: "block" }}
       >
@@ -181,7 +213,7 @@ const Home = () => {
               const { name, image, _id } = user;
               if (user._id != userDetails?._id && index < 4) {
                 return (
-                  <Box width={"100%"}>
+                  <Box width={"100%"} mt={"1rem"}>
                     <Flex justifyContent={"flex-start"} width="100%" gap="1rem">
                       <Avatar
                         size="sm"

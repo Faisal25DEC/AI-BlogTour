@@ -50,7 +50,6 @@ const Editor = (props) => {
   };
 
   const onChange = (delta, oldDelta, source) => {
-    console.log("onchange");
     if (editor) {
       const text = editor.getText();
       console.log(text);

@@ -10,11 +10,10 @@ import { getToken } from "../../utils/cookies";
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
 export const getBlogComments = (blogId) => async (dispatch) => {
-  console.log(blogId);
   dispatch(createAction(BLOG_COMMENTS_LOADING));
   try {
     const res = await axios.get(`${baseUrl}/comments/${blogId}`);
-    console.log(res);
+
     dispatch(createAction(BLOG_COMMENTS_SUCCESS, res.data));
   } catch (err) {
     dispatch(createAction(BLOG_COMMENTS_FAILURE));

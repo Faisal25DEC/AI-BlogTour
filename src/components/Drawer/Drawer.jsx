@@ -31,7 +31,7 @@ const DrawerComp = ({ btnRef, onOpen, isOpen, onClose, blogId }) => {
   useEffect(() => {
     dispatch(getBlogComments(blogId));
   }, [isOpen]);
-  console.log(blogId);
+
   return (
     <Drawer
       isOpen={isOpen}

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
   Avatar,
   Box,
+  Button,
   Flex,
   Heading,
   Image,
@@ -18,16 +19,59 @@ import { blogReducer } from "./../../Redux/blogReducer/blogReducer";
 import BlogCard from "../../components/BlogCard/BlogCard";
 import { getFollowersFollowing } from "../../Redux/followerReducer/followerActions";
 import ProfileLoader from "../../components/ProfileLoader/ProfileLoader";
+import axios from "axios";
+import { baseUrl } from "../../Redux/util";
 
 const Profile = () => {
   const [auth, setAuth] = useState(true);
   const [profileLoading, setProfileLoading] = useState(false);
   const { userDetails, isAuth } = useSelector((state) => state.userReducer);
   const { userProducts } = useSelector((state) => state.blogReducer);
+
   const { followers, following } = useSelector(
     (state) => state.followerReducer
   );
   const dispatch = useDispatch();
+
+  const [updatedProfileImage, setUpdatedProfileImage] = useState(null);
+  const [updateButtonLoading, setUpdateButtonLoading] = useState(false);
+
+  const onUpload = async (file) => {
+    const data = new FormData();
+    data.append("file", file);
+    data.append("upload_preset", "pulse-test");
+    const res = await (
+      await fetch("https://api.cloudinary.com/v1_1/depjh17m6/image/upload", {
+        body: data,
+        method: "POST",
+      })
+    ).json();
+
+    setUpdatedProfileImage(res.url);
+
+    return res.url;
+  };
+
+  const updateUser = async () => {
+    if (!updatedProfileImage) return null;
+    try {
+      const res = axios.patch(
+        `${baseUrl}/users/update`,
+        { image: updatedProfileImage },
+        {
+          headers: {
+            Authorization: `Bearer ${getToken("jwt_token")}`,
+          },
+        }
+      );
+      setUpdatedProfileImage(null);
+      setTimeout(() => {
+        dispatch(getUserDetails(getToken("jwt_token")));
+      }, 500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     const token = getToken("jwt_token");
@@ -48,7 +92,7 @@ const Profile = () => {
       }, 1000);
     }
   }, [userDetails]);
-  console.log(userProducts);
+
   if (!auth) {
     return <Navigate to="/login" />;
   }
@@ -88,9 +132,38 @@ const Profile = () => {
             borderRadius={"full"}
             width="9rem"
             height="9rem"
+            objectFit={"cover"}
           />
-          <Heading size="md" mt="1rem">
+          <Heading
+            size="md"
+            mt="1rem"
+            display={"flex"}
+            alignItems={"center"}
+            gap={"1rem"}
+          >
             {userDetails?.name}
+            <input
+              type="file"
+              id="file"
+              style={{ display: "none" }}
+              onChange={async (e) => {
+                setUpdateButtonLoading(true);
+                await onUpload(e.target.files[0]);
+                setUpdateButtonLoading(false);
+              }}
+            />
+            {updatedProfileImage ? (
+              <Button colorScheme="blue" size={"sm"} onClick={updateUser}>
+                Update Image
+              </Button>
+            ) : (
+              <Button size={"sm"} isLoading={updateButtonLoading}>
+                {" "}
+                <label htmlFor="file" style={{ cursor: "pointer" }}>
+                  Change Image
+                </label>
+              </Button>
+            )}
           </Heading>
           <Flex gap="1rem" mt="1rem">
             <Text fontWeight={"bold"}>Followers {followers?.length}</Text>

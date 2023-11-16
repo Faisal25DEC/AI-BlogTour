@@ -20,7 +20,7 @@ const createAction = (type, payload) => {
 export const getRandomUsers = () => async (dispatch) => {
   try {
     const res = await axios.get(`${baseUrl}/users/random/users`);
-    console.log(res);
+
     dispatch(createAction(GET_RANDOM_USERS, res.data));
   } catch (err) {
     console.log("err", err);
@@ -30,7 +30,7 @@ export const getRandomUsers = () => async (dispatch) => {
 export const signupUser = (user) => async (dispatch) => {
   try {
     const res = await axios.post(`${baseUrl}/users/signup`, user);
-    console.log(res.data);
+
     dispatch(createAction(INITIATE_SIGNUP));
   } catch (err) {
     console.log(err.response.data);
@@ -43,7 +43,7 @@ export const loginUser = (user) => async (dispatch) => {
     const res = await axios.post(`${baseUrl}/users/login`, user, {
       withCredentials: "include",
     });
-    console.log(res);
+
     if (res.data.token) {
       localStorage.setItem("jwt_token", res.data.token);
 
@@ -68,7 +68,6 @@ export const getUserDetails = (token) => async (dispatch) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log(res);
 
     dispatch(createAction(GET_USER_DETAILS, res.data));
   } catch (err) {
@@ -79,7 +78,7 @@ export const getUserDetails = (token) => async (dispatch) => {
 export const getProfileUser = (userId) => async (dispatch) => {
   try {
     const res = await axios.get(`${baseUrl}/users/${userId}`);
-    console.log(res);
+
     dispatch(createAction(GET_PROFILE_USER, res.data));
   } catch (err) {
     console.log(err);

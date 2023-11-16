@@ -6,7 +6,7 @@ import { getToken } from "../../utils/cookies";
 export const getFollowersFollowing = (userId) => async (dispatch) => {
   try {
     const res = await axios.get(`${baseUrl}/followers/${userId}`);
-    console.log(res);
+
     dispatch(createAction(GET_FOLLOWERS_FOLLOWING, res.data));
   } catch (err) {
     console.log(err);
