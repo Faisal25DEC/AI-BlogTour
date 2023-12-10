@@ -2,12 +2,20 @@ import React, { useEffect, useRef, useState } from "react";
 import styles from "./create.module.css";
 import axios from "axios";
 
-import { Button, Flex, Input, Select, useToast } from "@chakra-ui/react";
+import {
+  Button,
+  Flex,
+  Input,
+  Select,
+  useToast,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { getToken } from "../../utils/cookies";
 import "react-quill/dist/quill.bubble.css";
 import Editor from "../../components/Quill/Editor";
 import { useSelector } from "react-redux";
 import { baseUrl } from "../../Redux/util";
+import { AiDrawer } from "../../components/AiDrawer/AiDrawer";
 
 const Create = () => {
   const toast = useToast();
@@ -21,6 +29,7 @@ const Create = () => {
   const [image, setImage] = useState("");
   const [blogPosted, setBlogPosted] = useState(false);
   const [createLoading, setCreateLoading] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -87,6 +96,12 @@ const Create = () => {
 
   return (
     <div>
+      <AiDrawer onOpen={onOpen} onClose={onClose} isOpen={isOpen} />
+      <div>
+        <Flex justifyContent={"center"}>
+          <Button onClick={onOpen}>Write Blog using AI</Button>
+        </Flex>
+      </div>
       <input
         type="text"
         name="title"

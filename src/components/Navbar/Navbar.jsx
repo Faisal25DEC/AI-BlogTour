@@ -25,11 +25,11 @@ const Navbar = () => {
   const [isLargerThan800] = useMediaQuery("(min-width: 800px)");
   useEffect(() => {
     const token = getToken("jwt_token");
-    console.log(token);
+   
 
     if (token) {
       dispatch(getUserDetails(token));
-      console.log(userDetails);
+     
     }
   }, [isAuth]);
   return (
