@@ -16,6 +16,7 @@ import Editor from "../../components/Quill/Editor";
 import { useSelector } from "react-redux";
 import { baseUrl } from "../../Redux/util";
 import { AiDrawer } from "../../components/AiDrawer/AiDrawer";
+import { FaCopy } from "react-icons/fa6";
 
 const Create = () => {
   const toast = useToast();
@@ -98,8 +99,10 @@ const Create = () => {
     <div>
       <AiDrawer onOpen={onOpen} onClose={onClose} isOpen={isOpen} />
       <div>
-        <Flex justifyContent={"center"}>
-          <Button onClick={onOpen}>Write Blog using AI</Button>
+        <Flex justifyContent={"flex-end"} pt="2rem" w="80%" m={"auto"}>
+          <Button onClick={onOpen} colorScheme="linkedin">
+            Write Blog using AI
+          </Button>
         </Flex>
       </div>
       <input
