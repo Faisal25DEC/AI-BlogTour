@@ -118,6 +118,7 @@ const View = () => {
               onClick={() => {
                 if (!isAuth) {
                   alert("login to follow");
+                  return;
                 }
                 if (isFollowing(profileUser?._id, following)) {
                   setFollowerLoading(true);

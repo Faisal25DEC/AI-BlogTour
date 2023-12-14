@@ -18,7 +18,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { getBlogReadTime, monthMap } from "../../utils/blogCard";
 
-const BlogCard = ({ blog, onProfile }) => {
+const BlogCard = ({ blog, onProfile, onSearch }) => {
   var {
     _id,
     title,
@@ -69,42 +69,46 @@ const BlogCard = ({ blog, onProfile }) => {
               </Heading>
 
               <Text py="2">
-                {isNotSmallerScreen
+                {onSearch
+                  ? text?.substring(0, 70)
+                  : isNotSmallerScreen
                   ? text?.substring(0, 250)
                   : text?.substring(0, 75)}
                 ...
               </Text>
             </CardBody>
 
-            <CardFooter width="100%">
-              <Flex gap="1.4rem" alignItems={"center"}>
-                <Text
-                  bg={"#f0eeeb"}
-                  padding={"0px 10px"}
-                  borderRadius={"15px"}
-                  fontWeight={"medium"}
-                >
-                  {tags.join(",")}
-                </Text>
-                <Text>{getBlogReadTime(text?.length)} read</Text>
-                <Link to={`/blog/${_id}`}>
-                  <Button
-                    ml="auto"
-                    width={["6.5rem", "6.5rem", "8rem"]}
-                    variant="solid"
-                    bg={"black"}
-                    color={"whitesmoke"}
-                    _hover={{
-                      bg: "white",
-                      border: "solid 1px grey",
-                      color: "black",
-                    }}
+            {!onSearch && (
+              <CardFooter width="100%">
+                <Flex gap="1.4rem" alignItems={"center"}>
+                  <Text
+                    bg={"#f0eeeb"}
+                    padding={"0px 10px"}
+                    borderRadius={"15px"}
+                    fontWeight={"medium"}
                   >
-                    View
-                  </Button>
-                </Link>
-              </Flex>
-            </CardFooter>
+                    {tags.join(",")}
+                  </Text>
+                  <Text>{getBlogReadTime(text?.length)} read</Text>
+                  <Link to={`/blog/${_id}`}>
+                    <Button
+                      ml="auto"
+                      width={["6.5rem", "6.5rem", "8rem"]}
+                      variant="solid"
+                      bg={"black"}
+                      color={"whitesmoke"}
+                      _hover={{
+                        bg: "white",
+                        border: "solid 1px grey",
+                        color: "black",
+                      }}
+                    >
+                      View
+                    </Button>
+                  </Link>
+                </Flex>
+              </CardFooter>
+            )}
           </Stack>
         </Box>
         <Spacer />

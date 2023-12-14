@@ -105,6 +105,7 @@ export const AiDrawer = ({ isOpen, onClose, onOpen }) => {
                 w="20%"
                 onClick={() => {
                   title && getBlog();
+                  setTitle("");
                 }}
                 colorScheme="green"
                 isDisabled={loading}
@@ -117,9 +118,8 @@ export const AiDrawer = ({ isOpen, onClose, onOpen }) => {
             <Box h="80vh">
               {loading ? (
                 <Box
-                  padding="6"
                   bg="transparent"
-                  width={{ base: "100%", md: "90%", lg: "80%", xl: "50%" }}
+                  width={{ base: "100%", md: "90%", lg: "80%", xl: "100%" }}
                   m="auto"
                 >
                   <SkeletonText
@@ -127,7 +127,7 @@ export const AiDrawer = ({ isOpen, onClose, onOpen }) => {
                     noOfLines={1}
                     spacing="4"
                     skeletonHeight="10"
-                    width={"50%"}
+                    width={"100%"}
                   />
 
                   <SkeletonText
@@ -135,30 +135,35 @@ export const AiDrawer = ({ isOpen, onClose, onOpen }) => {
                     noOfLines={1}
                     spacing="4"
                     skeletonHeight="20"
+                    width={"100%"}
                   />
                   <SkeletonText
                     mt="4"
                     noOfLines={4}
                     spacing="4"
                     skeletonHeight="2"
+                    width={"100%"}
                   />
                   <SkeletonText
                     mt="4"
                     noOfLines={4}
                     spacing="4"
                     skeletonHeight="2"
+                    width={"100%"}
                   />
                   <SkeletonText
                     mt="4"
                     noOfLines={4}
                     spacing="4"
                     skeletonHeight="2"
+                    width={"100%"}
                   />
                   <SkeletonText
                     mt="4"
                     noOfLines={4}
                     spacing="4"
                     skeletonHeight="2"
+                    width={"100%"}
                   />
                 </Box>
               ) : (

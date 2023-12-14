@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./navbar.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getUserDetails,
@@ -17,21 +17,48 @@ import {
   Flex,
   Image,
   useMediaQuery,
+  Box,
+  Input,
 } from "@chakra-ui/react";
 import { getToken } from "../../utils/cookies";
+import BlogCard from "../BlogCard/BlogCard";
+import { baseUrl } from "../../Redux/util";
+import axios from "axios";
 const Navbar = () => {
   const { userDetails, isAuth } = useSelector((state) => state.userReducer);
+  const [blogsArray, setBlogsArray] = useState(null);
+  const [searchedBlogs, setSearchedBlogs] = useState(null);
+  const [searchString, setSearchString] = useState(null);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isLargerThan800] = useMediaQuery("(min-width: 800px)");
   useEffect(() => {
     const token = getToken("jwt_token");
-   
 
     if (token) {
       dispatch(getUserDetails(token));
-     
     }
   }, [isAuth]);
+  useEffect(() => {
+    const getBlogs = async () => {
+      const res = await axios.get(`${baseUrl}/blogs`);
+      setBlogsArray(res.data);
+    };
+    getBlogs();
+  }, []);
+  useEffect(() => {
+    if (!searchString) setSearchedBlogs(null);
+    if (searchString) {
+      setSearchedBlogs(
+        blogsArray?.filter((item) =>
+          item.title
+            .toLocaleLowerCase()
+            .includes(searchString.toLocaleLowerCase())
+        )
+      );
+    }
+  }, [searchString, blogsArray]);
+
   return (
     <nav>
       <Link to="/" className="logo-wrapper">
@@ -44,7 +71,46 @@ const Navbar = () => {
         </div>
       </Link>
 
-      {isLargerThan800 && <input type="text" id="search" placeholder="Seach" />}
+      {isLargerThan800 && (
+        <Box position="relative" w="50%">
+          <Input
+            type="text"
+            id="search"
+            placeholder="Search"
+            w="100%"
+            onChange={(e) => {
+              setSearchString(e.target.value);
+              if (searchString === "") setSearchString(null);
+            }}
+          />
+          {searchedBlogs && searchedBlogs.length > 0 && (
+            <Box
+              position="absolute"
+              w="100%"
+              zIndex={"99999"}
+              top="3rem"
+              bgColor={"white"}
+              maxH="80vh"
+              overflowY={"scroll"}
+            >
+              {searchedBlogs &&
+                searchedBlogs.map((item) => {
+                  return (
+                    <Link
+                      onClick={() => {
+                        setSearchedBlogs(null);
+                        setSearchString(null);
+                        window.location.href = `/blog/${item._id}`;
+                      }}
+                    >
+                      <BlogCard blog={item} onSearch={true} />
+                    </Link>
+                  );
+                })}
+            </Box>
+          )}
+        </Box>
+      )}
       <div className="nav-link-wrapper">
         {isAuth && (
           <Link to="/create" className="nav-link">
